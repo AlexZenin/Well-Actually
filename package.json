@@ -9,9 +9,11 @@
 		"node": ">=6.9.0"
 	},
 	"dependencies": {
+		"body-parser": "^1.17.2",
 		"express": "^4.15.3"
 	},
 	"scripts": {
-		"start": "node server.js"
+		"start": "node server.js",
+		"test": "node test.js"
 	}
 }
