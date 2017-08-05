@@ -1,0 +1,5 @@
+.shaded {
+	background-color: rgba(0,0,0,.25);
+	border 1px solid black;
+	min-height: 32px;
+}
