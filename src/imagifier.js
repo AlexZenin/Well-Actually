@@ -6,6 +6,10 @@ module.exports = function(articles, callback) {
 
 	articles.forEach(function(article) {
 		bestImage.getBestImage(article.url, null, function(err, imgURL) {
+
+
+
+
 			final.push({
 				'title': article.title,
 				'url': article.url,
