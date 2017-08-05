@@ -15,7 +15,6 @@
 		"sanitize-html": "^1.14.1"
 	},
 	"scripts": {
-		"start": "node server.js",
-		"test": "node src/test.js"
+		"start": "node src/server.js"
 	}
 }
