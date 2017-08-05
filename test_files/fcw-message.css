@@ -1,0 +1,42 @@
+#fcw-message * { padding: 0; margin: 0; border:0;font-size:100%;font:inherit;vertical-align:baseline;}
+#fcw-message { display:block; width: 100%; background: #AC0040; overflow:hidden; }
+#fcw-message .fcw-content { width: 960px; margin: 0 auto;}
+#fcw-message .fcw-banner { text-align: center; padding: 6px 0; }
+
+.fcw-content { width: 100%; color: white;}
+#fcw-message h6 { display:inline; font-family: Georgia, Times New Roman, serif; color: white; font-size: 18px; font-weight: normal; padding: 0; margin: 0; text-shadow:1px 1px 1px #222;}
+#fcw-message h6.larger { font-size: 24px;}
+#fcw-message h6.smaller { font-size: 16px;}
+#fcw-message span.fcw-ribbon { display:inline-block; font-family: Arial, Helvetica, sans-serif; color: black; font-weight: normal; position:relative; background: #FBB024; text-transform: uppercase;line-height: 28px;height: 28px;font-weight: bold;font-size: 18px; padding: 0; margin: 0 30px;}
+#fcw-message span.fcw-ribbon.larger { font-size: 22px;}
+#fcw-message span.fcw-ribbon:before {border-color: #FBB024 #FBB024 #FBB024 transparent;left: -28px;}
+#fcw-message span.fcw-ribbon:before, #fcw-message span.fcw-ribbon:after {display: block;content: "";border-style: solid;border-width: 14px;position: absolute;top: 0;}
+#fcw-message span.fcw-ribbon:after {border-color: #FBB024 transparent #FBB024 #FBB024;right: -28px;}
+
+#fcw-details { height: 0; text-align: center; -webkit-transition: all 1s ease;-moz-transition: all 1s ease;-ms-transition: all 1s ease;-o-transition: all 1s ease;transition: all 1s ease;}
+#fcw-details p { color: white; font-size: 11px; padding: 0; margin: 0;}
+#fcw-details.expanded, #fcw-message:hover #fcw-details { height: 24px; }
+
+#fcw-message.site5 { background-color: #70bdcb; }
+
+/* UK Pages */
+#fcw-message.site4 { background: #A12847;}
+/*#fcw-message.site4 span.fcw-ribbon{ background-color: #ffe674;}
+#fcw-message.site4 span.fcw-ribbon:before {border-color: #ffe674 #ffe674 #ffe674 transparent;left: -28px;}
+#fcw-message.site4 span.fcw-ribbon:after {border-color: #ffe674 transparent #ffe674 #ffe674;right: -28px;}
+*/
+
+/* AU Pages */
+#fcw-message.site3 { background: #ac0040;}
+#fcw-message.site3 h6{ font-family: Arial, Helvetica, sans-serif; text-shadow:none}
+#fcw-message.site3 span.fcw-ribbon{ background-color: #ffe674;}
+#fcw-message.site3 span.fcw-ribbon:before {border-color: #ffe674 #ffe674 #ffe674 transparent;left: -28px;}
+#fcw-message.site3 span.fcw-ribbon:after {border-color: #ffe674 transparent #ffe674 #ffe674;right: -28px;}
+
+@media screen and (max-width: 800px){
+    #fcw-message .fcw-content { width: 100%; }
+    #fcw-message .fcw-content h6 { display:block; margin-top: 6px;}
+    #fcw-details.expanded, #fcw-message:hover #fcw-details { margin: 0 4px 4px 4px;}
+    #fcw-message span.fcw-ribbon { font-size: 14px; }
+    #fcw-message h6.smaller { font-size: 14px; text-shadow: none;}
+}

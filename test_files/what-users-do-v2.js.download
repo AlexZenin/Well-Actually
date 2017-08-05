@@ -1,0 +1,347 @@
+/*global ndm, utag, utag_data, window */
+/*jslint white: true, browser: true */
+/* Flip animation - http://jsfiddle.net/rsadwick/zwWHY/ */
+(function($) {
+    'use strict';
+    $.fn.stickyPromo = function(options) {
+        this.each(function() {
+            var $module,
+                settings = {},
+                $footer,
+                leftratio,
+                getCookie,
+                ipad,
+                alternate,
+                originalpos,
+                pageHeight,
+                platform,
+                setCookie,
+                setup = {},
+                toolPosition,
+                template,
+                transitionHeight,
+                tracking,
+                $window = $(window),
+                winWidth,
+                winHeight;
+
+            if (options) {
+                $.extend(settings, options);
+            }
+            $.extend(settings, $.fn.stickyPromo.defaults, options || {});
+
+            if ($('body').hasClass('category') || $('body').hasClass('archive')) {
+                if ($('body').hasClass('mobile')) {
+                    $footer = $('#footer');
+                    pageHeight = $('body #page #content').height()/3;
+                } else {
+                    $footer = $('#content-5');
+                    pageHeight = $('body #page #content').height()/3;
+                }
+            } else if ($('body').hasClass('home')) {
+                $footer = $('#footer');
+                pageHeight = $('body #page #content').height()/2.5;
+            } else {
+                $footer = $('#footer');
+                pageHeight = 2 * $('body #page #content #story .story-body').height()/3;
+            }
+
+            // Setup Adobe analytics tracking
+            window.mready = window.mready || [];
+
+            tracking = function(action, label) {
+                var eventCat = settings.trackingName,
+                    eventPosition = 0;
+
+                if (utag !== 'undefined') {
+                    utag.link($.extend({}, utag_data, {
+                        ev_cat: eventCat,
+                        ev_action: action,
+                        ev_label: label,
+                        ev_value: eventPosition
+                    }));
+                }
+
+                window.mready.push(function(metrics) {
+                    metrics.ev({
+                        itm: {
+                            container: eventCat,
+                            order: eventPosition,
+                            label: action + ':' + label
+                        }
+                    });
+                });
+            };
+
+            // Detect whether the tools should move to the sidebar
+            toolPosition = function() {
+                var top = $(document).scrollTop(),
+                    pos = $module.offset(),
+                    footeroffset = $footer.offset().top - $module.find('.promo-container').height() - 224 - 20, // 224 + 20 = 244, 244 is height of share tools on tcog story and plus 20px space between the promo banner
+                    left = $('#content').offset().left - $module.find('.promo-container').width() - 15; // 15px space beween promo banner and page content.
+
+                if ($('body.desktop').hasClass('category') || $('body.desktop').hasClass('archive') ) {
+                    footeroffset = $footer.offset().top - $module.find('.promo-container').height() - $('body.desktop').find('.nav-holder-jumpto').height() - 20;
+                }
+
+                if ( platform === 'mobile') {
+                    if (top >= pageHeight) {
+                        $module.css('right', '10px');
+                        $module.addClass('animation');
+                    } else {
+                        $module.css('right', '-100%');
+                        $module.removeClass('animation');
+                    }
+                } else {
+                    if (top >= pageHeight) {
+                        $module.css('left', left);
+                        $module.addClass('animation');
+                    } else {
+                        $module.css('left', '-100%');
+                        $module.removeClass('animation');
+                    }
+
+                    if (top >= pos.top) {
+                        $module.addClass('stick');
+                        $module.removeClass('static');
+                    }
+
+                    if (top <= originalpos.top) {
+                        $module.removeClass('stick');
+                        $module.addClass('static');
+                    }
+
+                    if (top >= footeroffset) {
+
+                        if ($module.hasClass('stick') === true) {
+                            if ($('body.desktop').hasClass('category') || $('body.desktop').hasClass('archive') ) {
+                                // $module.css('position', 'absolute').css('top', footeroffset).removeClass('stick').addClass('footer-stick').css({'left': '', 'display': 'none'});
+                                $module.css('position', 'absolute').css('top', footeroffset).removeClass('stick').addClass('footer-stick').css({'left': ''});
+                            } else {
+                                $module.css('position', 'absolute').css('top', footeroffset).removeClass('stick').addClass('footer-stick').css('left', '');
+                            }
+                        }
+
+                    } else {
+
+                        if ($module.hasClass('footer-stick') === true) {
+                            if ($('body.desktop').hasClass('category') || $('body.desktop').hasClass('archive') ) {
+                                // $module.removeClass('footer-stick').addClass('stick').css('left', left).css('position', '').css({'top': '', 'display': 'block'});
+                                $module.removeClass('footer-stick').addClass('stick').css('left', left).css('position', '').css({'top': ''});
+                            } else {
+                                $module.removeClass('footer-stick').addClass('stick').css('left', left).css('position', '').css('top', '');
+                            }
+                        }
+
+                    }
+                }
+
+
+            };
+
+            // set cookie
+            setCookie = function(key, value, days) {
+                // var cookie = [key + '=' + encodeURI(value)];
+
+                days = (isNaN(parseInt(days, 10))) ? 1 : days;
+                var now = new Date(),
+                    addDays = (parseInt(days, 10) * 24 * 60 * 60 * 1000);
+
+                now.setTime(now.getTime() + addDays);
+                // cookie.push('expires=' + now.toGMTString());
+
+                // return (document.cookie = cookie.join(';'));
+                var expires = ';expires=' + now.toGMTString();
+
+                return (document.cookie = key + '=' + encodeURI(value) + ';path=/' + expires);
+            };
+
+            // get cookie
+            getCookie = function(key) {
+                var tmp = document.cookie.match(new RegExp(key + '=[^;]+($|;)', 'gi'));
+                if (!tmp || !tmp[0]) {
+                    return null;
+                } else {
+                    return decodeURI(tmp[0].substring(key.length + 1, tmp[0].length).replace(';', '')) || null;
+                }
+            };
+
+            setup.stickyPromo = function() {
+                // check if the ncawudr cookie exists, if not load the popup module
+                // then set the cookie to block the module from loading again
+                var visitedCookie = getCookie('ncawudr_cookie');
+                if (null === visitedCookie) {
+                    setCookie('ncawudr_cookie', 0, settings.campaignPeriod);
+                } else {
+                    if (0 === parseInt(visitedCookie)) {
+                        setCookie('ncawudr_cookie', 1, settings.campaignPeriod);
+                        setup.dom();
+                    }
+                }
+            };
+
+            setup.dom = function() {
+
+                // Detect if on iPad or a narrow screen (width less than 1170px)
+                ipad = navigator.userAgent.match(/iPad/);
+
+                winWidth = window.innerWidth || document.documentElement.clientWidth;
+
+                winHeight = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+                if ($('body').hasClass('desktop')) {
+                    if (ipad === 'iPad' || winWidth < 1250) {
+                        platform = 'iPad';
+                    } else {
+                        platform = 'desktop';
+                    }
+                } else {
+                    platform = 'mobile';
+                }
+
+                if (platform !== 'iPad') {
+
+                    template = '<div id="' + settings.promoDivID + '">';
+
+                    template += '<div class="promo-container">';
+                    template += '<div class="promo-main">';
+                    template += '<a href="#" class="close"><img src="' + settings.promoBannerCloseBtnDesktop + '" /></a>';
+                    template += '<a href="http://www.news.com.au/research" class="link"><span>What users do</span></a>';
+                    template += '<div class="card">';
+                    template += '<div class="face front"><img src="' + settings.promoBannerURLDesktop + '" /></div>';
+
+                    if (settings.flipAnimation) {
+                        template += '<div class="face back"><img src="http://media.news.com.au/cs/nca/latest/public/img/p/2016/11-nov/addtohome/popup_pink.jpg" /></div>';
+                    }
+
+                    template += '</div>';
+                    template += '</div>';
+                    template += '</div>';
+                    template += '</div>';
+
+                    if (platform === 'desktop') {
+                        if ($('body').hasClass('nav-holder-jumpto')) {
+                            // transitionHeight = (winHeight - $('body #what-users-do .flip-container').height() - $('body .nav-holder-jumpto').height())/2;
+                            transitionHeight = 220 + $('body .nav-holder-jumpto').height();
+                        } else if ($('body.tcog:not(technology)')) {
+                            // transitionHeight = (winHeight - $('body #what-users-do .flip-container').height() - 220)/2;
+                            transitionHeight = 450;
+                        } else {
+                            // transitionHeight = (winHeight - $('body #what-users-do .flip-container').height())/2;
+                            transitionHeight = 350;
+                        }
+                    }
+
+                    // add popup module to the page
+                    $('body #page #content').append(template);
+
+                    $module = $('body').find('#' + settings.promoDivID);
+
+                    if (platform === 'mobile') {
+                        $module.find('.close img').attr('src', settings.promoBannerCloseBtnMobile);
+                        $module.find('.card .face.front img').attr('src', settings.promoBannerURLMobile);
+                    }
+
+                    if (winWidth < 1250 || ipad === 'iPad') {
+                        alternate = true;
+                    } else {
+                        alternate = false;
+                        originalpos = $module.offset();
+                        leftratio = $('#content').offset().left - $module.offset().left;
+                    }
+
+                    if (alternate === false) {
+
+                        if ($('body.desktop').hasClass('tcog')) {
+                            if ($('body.desktop').hasClass('technology')) {
+                                $module.css('padding-top', (200 + 20));
+                            } else {
+                                $module.css('padding-top', (224 + 200 + 20));
+                            }
+                        } else {
+                            $module.css('padding-top', ($('body.desktop').find('.nav-holder-jumpto').height() + 200 + 20));
+                        }
+
+                        $window.bind('scroll', function() {
+                            toolPosition();
+                        });
+
+                        $window.bind('resize', function() {
+                            originalpos.left = $('#content').offset().left - leftratio;
+                            toolPosition();
+                        });
+
+                    }
+
+                    if ( platform === 'mobile') {
+                        originalpos = $module.offset();
+                        $window.bind('scroll', function() {
+                            toolPosition();
+                        });
+                    }
+
+                    setup.events();
+                }
+            };
+
+            setup.events = function() {
+
+                if (settings.flipAnimation) {
+                    // flip popup image
+                    setTimeout(function() {
+                        $module.find('.promo-container .card').addClass('flipped');
+                    }, 9000);
+                }
+
+                if (settings.removePromoAfterAnimation) {
+                    // remove popup module
+                    setTimeout(function() {
+                        $module.find('.promo-container').removeClass('show');
+                    }, 17000);
+                }
+
+                // bring popup module into view
+                setTimeout(function() {
+                    // $module.find('.promo-container').addClass('show').css('top', transitionHeight);
+                    $module.addClass('show'); //.css('top', transitionHeight);
+                }, 2000);
+
+                // hide module if close button tapped
+                $module.find('.close').on('click', function(e) {
+                    $(this).parents('#' + settings.promoDivID).removeClass('show').addClass('hide').css('top', 'inherit');
+                    tracking('button', 'close');
+                    e.preventDefault();
+                });
+
+                // add click event to link button
+                $module.find('.link').on('click', function() {
+                    tracking('button', 'link');
+                });
+            };
+
+            setup.stickyPromo();
+
+        });
+        return this;
+    };
+
+    // trackingName, promoDivID
+    $.fn.stickyPromo.defaults = {
+        trackingName: 'NLMD-1601-what-users-do',
+        promoDivID: 'what-users-do',
+        flipAnimation: false,
+        removePromoAfterAnimation: false,
+        promoLink: 'http://www.news.com.au/research',
+        promoBannerURLDesktop: 'http://media.news.com.au/cs/nca/latest/public/img/p/2017/07-jul/what-users-do/research_banner_desktop_115x263.jpg',
+        promoBannerURLMobile: 'http://media.news.com.au/cs/nca/latest/public/img/p/2017/07-jul/what-users-do/research_banner_mobile_52x300.jpg',
+        promoBannerCloseBtnDesktop: 'http://media.news.com.au/cs/nca/latest/public/img/p/2017/07-jul/what-users-do/close_button_dekstop_30x30.png',
+        promoBannerCloseBtnMobile: 'http://media.news.com.au/cs/nca/latest/public/img/p/2017/07-jul/what-users-do/close_button_mobile_25x25.png',
+        campaignPeriod: 31
+    };
+
+    // initialization
+    $(window).load(function() {
+        $('body').stickyPromo();
+    });
+
+}(ndm.jQuery));

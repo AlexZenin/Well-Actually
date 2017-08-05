@@ -1,0 +1,155 @@
+
+
+/* Lato */
+@font-face {font-family:"Lato"; font-weight: 300; font-style:normal; src:url("webfonts/Lato-Light.woff") format("woff");}
+@font-face {font-family:"Lato"; font-weight: 400; font-style:normal; src:url("webfonts/Lato-Regular.woff") format("woff");}
+@font-face {font-family:"Lato"; font-weight: 600; font-style:normal; src:url("webfonts/Lato-Semibold.woff") format("woff");}
+@font-face {font-family:"Lato"; font-weight: 700; font-style:normal; src:url("webfonts/Lato-Bold.woff") format("woff");}
+
+
+/*
+Font:       Faith And Glory One
+            Faith And Glory TWo
+Style:      Regular
+URL:        https://www.youworkforthem.com/font/T5815/faith-and-glory
+Foundry:    Set Sail Studios
+            https://www.youworkforthem.com/designer/527/set-sail-studios
+Copyright:  Copyright (c) 2015 by Set Sail Studios. All rights reserved.
+Version:    17
+Created:    October 20, 2016
+License:    https://www.youworkforthem.com/font-license
+Notes:      The WebFont(s) listed in this document must follow the YouWorkForThem
+            WebFont license rules. All other parties are strictly restricted
+            from using the WebFonts(s) listed without a purchased license.
+            All details above must always remain unaltered and visible in your CSS.
+*/
+/* Faith & Glory */
+@font-face {font-family:"FaithGlory"; font-weight:400; font-style:normal; src:url("webfonts/faith-and-glory-one.woff") format("woff");}
+
+/* Faith & Glory (CAPS) */
+@font-face {font-family:"FaithGloryCaps"; font-weight:400; font-style:normal; src:url("webfonts/faith-and-glory-two.woff") format("woff");}
+
+
+ /**
+ * @license
+ * MyFonts Webfont Build ID 2974462, 2015-02-17T18:47:31-0500
+ *
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s) entered into by the website owner. All other parties are
+ * explicitly restricted from using the Licensed Webfonts(s).
+ *
+ * You may obtain a valid license at the URLs below.
+ *
+ * Webfont:ProximaNova-ExtrabldIt by Mark Simonson
+ * URL:http://www.myfonts.com/fonts/marksimonson/proxima-nova/extrabld-it/
+ * Copyright:Copyright (c) Mark Simonson, 2005. All rights reserved.
+ * Licensed pageviews:Unlimited
+ *
+ * Webfont:ProximaNovaT-Thin by Mark Simonson
+ * URL:http://www.myfonts.com/fonts/marksimonson/proxima-nova/thin/
+ * Copyright:Copyright (c) Mark Simonson, 2005. All rights reserved.
+ * Licensed pageviews:Unlimited
+ *
+ * Webfont:ProximaNova-Extrabld by Mark Simonson
+ * URL:http://www.myfonts.com/fonts/marksimonson/proxima-nova/extrabld/
+ * Copyright:Copyright (c) Mark Simonson, 2005. All rights reserved.
+ * Licensed pageviews:Unlimited
+ *
+ * Webfont:ProximaNova-Black by Mark Simonson
+ * URL:http://www.myfonts.com/fonts/marksimonson/proxima-nova/black/
+ * Copyright:Copyright (c) Mark Simonson, 2005. All rights reserved.
+ * Licensed pageviews:Unlimited
+ *
+ * Webfont:ProximaNova-LightIt by Mark Simonson
+ * URL:http://www.myfonts.com/fonts/marksimonson/proxima-nova/light-it/
+ * Copyright:Copyright (c) Mark Simonson, 2005. All rights reserved.
+ * Licensed pageviews:Unlimited
+ *
+ * Webfont:ProximaNova-Light by Mark Simonson
+ * URL:http://www.myfonts.com/fonts/marksimonson/proxima-nova/light/
+ * Copyright:Copyright (c) Mark Simonson, 2005. All rights reserved.
+ * Licensed pageviews:Unlimited
+ *
+ * Webfont:ProximaNova-RegularIt by Mark Simonson
+ * URL:http://www.myfonts.com/fonts/marksimonson/proxima-nova/regular-it/
+ * Copyright:Copyright (c) Mark Simonson, 2005. All rights reserved.
+ * Licensed pageviews:Unlimited
+ *
+ * Webfont:ProximaNova-SemiboldIt by Mark Simonson
+ * URL:http://www.myfonts.com/fonts/marksimonson/proxima-nova/semibold-it/
+ * Copyright:Copyright (c) Mark Simonson, 2005. All rights reserved.
+ * Licensed pageviews:Unlimited
+ *
+ * Webfont:ProximaNova-ThinIt by Mark Simonson
+ * URL:http://www.myfonts.com/fonts/marksimonson/proxima-nova/thin-it/
+ * Copyright:Copyright (c) Mark Simonson, 2005. All rights reserved.
+ * Licensed pageviews:Unlimited
+ *
+ * Webfont:ProximaNova-Semibold by Mark Simonson
+ * URL:http://www.myfonts.com/fonts/marksimonson/proxima-nova/semibold/
+ * Copyright:Copyright (c) Mark Simonson, 2005. All rights reserved.
+ * Licensed pageviews:Unlimited
+ *
+ * Webfont:ProximaNova-BlackIt by Mark Simonson
+ * URL:http://www.myfonts.com/fonts/marksimonson/proxima-nova/black-it/
+ * Copyright:Copyright (c) Mark Simonson, 2005. All rights reserved.
+ * Licensed pageviews:Unlimited
+ *
+ * Webfont:ProximaNova-BoldIt by Mark Simonson
+ * URL:http://www.myfonts.com/fonts/marksimonson/proxima-nova/bold-it/
+ * Copyright:Copyright (c) Mark Simonson, 2005. All rights reserved.
+ * Licensed pageviews:Unlimited
+ *
+ * Webfont:ProximaNova-Regular by Mark Simonson
+ * URL:http://www.myfonts.com/fonts/marksimonson/proxima-nova/regular/
+ * Copyright:Copyright (c) Mark Simonson, 2005. All rights reserved.
+ * Licensed pageviews:Unlimited
+ *
+ * Webfont:ProximaNova-Bold by Mark Simonson
+ * URL:http://www.myfonts.com/fonts/marksimonson/proxima-nova/bold/
+ * Copyright:Copyright (c) Mark Simonson, 2005. All rights reserved.
+ * Licensed pageviews:Unlimited
+ *
+ * Webfont:ThirstySoftRegular by Yellow Design Studio
+ * URL:http://www.myfonts.com/fonts/yellow-design/thirsty-soft/regular/
+ * Copyright:Copyright (c) 2014 by Yellow Design Studio. All rights reserved.
+ * Licensed pageviews:Unlimited
+ *
+ *
+ * License:http://www.myfonts.com/viewlicense?type=web&buildid=2974462
+ *
+ * © 2015 MyFonts Inc
+*/
+/* Proxima Nova Thin */
+@font-face {font-family:"ProximaNova";  font-weight: 200; font-style:normal; src:url("webfonts/2D62FE_1_0.woff") format("woff");}
+@font-face {font-family:"ProximaNova";  font-weight: 200; font-style:italic; src:url("webfonts/2D62FE_8_0.woff") format("woff");}
+
+/* Proxima Nova Light */
+@font-face {font-family:"ProximaNova";  font-weight: 300; font-style:normal; src:url("webfonts/2D62FE_5_0.woff") format("woff");}
+@font-face {font-family:"ProximaNova";  font-weight: 300; font-style:italic; src:url("webfonts/2D62FE_4_0.woff") format("woff");}
+
+/* Proxima Nova Regular */
+@font-face {font-family:"ProximaNova";  font-weight: 400; font-style:normal; src:url("webfonts/2D62FE_C_0.woff") format("woff");}
+@font-face {font-family:"ProximaNova";  font-weight: 400; font-style:italic; src:url("webfonts/2D62FE_6_0.woff") format("woff");}
+@font-face {font-family:"ProximaNova";  font-weight: 500; font-style:normal; src:url("webfonts/2D62FE_C_0.woff") format("woff");}
+@font-face {font-family:"ProximaNova";  font-weight: 500; font-style:italic; src:url("webfonts/2D62FE_6_0.woff") format("woff");}
+
+/* Proxima Nova Semibold */
+@font-face {font-family:"ProximaNova";  font-weight: 600; font-style:normal; src:url("webfonts/2D62FE_9_0.woff") format("woff");}
+@font-face {font-family:"ProximaNova";  font-weight: 600; font-style:italic; src:url("webfonts/2D62FE_7_0.woff") format("woff");}
+
+/* Proxima Nova Bold */
+@font-face {font-family:"ProximaNova";  font-weight: 700; font-style:normal; src:url("webfonts/2D62FE_D_0.woff") format("woff");}
+@font-face {font-family:"ProximaNova";  font-weight: 700; font-style:italic; src:url("webfonts/2D62FE_B_0.woff") format("woff");}
+
+/* Proxima Nova Extra Bold */
+@font-face {font-family:"ProximaNova";  font-weight: 800; font-style:normal; src:url("webfonts/2D62FE_2_0.woff") format("woff");}
+@font-face {font-family:"ProximaNova";  font-weight: 800; font-style:italic; src:url("webfonts/2D62FE_0_0.woff") format("woff");}
+
+/* Proxima Nova Extra Black */
+@font-face {font-family:"ProximaNova";  font-weight: 900; font-style:normal; src:url("webfonts/2D62FE_3_0.woff") format("woff");}
+@font-face {font-family:"ProximaNova";  font-weight: 900; font-style:italic; src:url("webfonts/2D62FE_A_0.woff") format("woff");}
+
+/* Thirsty Soft Regular */
+@font-face {font-family:"ThirstySoft";  font-weight: 500; src:url("webfonts/2D62FE_E_0.woff") format("woff");}
+

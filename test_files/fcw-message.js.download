@@ -1,0 +1,3 @@
+var show_fcw_details = function(){ document.getElementById('fcw-details').className = 'expanded'; setTimeout(hide_fcw_details,3200); }
+var hide_fcw_details = function(){ document.getElementById('fcw-details').className = ''; }
+show_fcw_details(); 

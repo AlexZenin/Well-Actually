@@ -1,0 +1,29 @@
+<HTML>
+
+<HEAD>
+    <TITLE>Test page for HTML Stripping</TITLE>
+    <script type="text/javascript" src="./readability-master/Readability.js"></script>
+    <link rel="import" href="./test.html">
+</HEAD>
+
+<BODY BGCOLOR="FFFFFF">
+
+
+    <textarea id="texty">
+        Example text
+    </textarea>
+
+    <script type="text/javascript">
+        var loc = document.location;
+        var uri = {
+            spec: loc.href,
+            host: loc.host,
+            prePath: loc.protocol + "//" + loc.host,
+            scheme: loc.protocol.substr(0, loc.protocol.indexOf(":")),
+            pathBase: loc.protocol + "//" + loc.host + loc.pathname.substr(0, loc.pathname.lastIndexOf("/") + 1)
+        };
+        var article = new Readability(uri, document).parse();
+    </script>
+</BODY>
+
+</HTML>

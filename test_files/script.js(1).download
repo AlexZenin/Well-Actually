@@ -1,0 +1,27 @@
+// Elements/variables Caching
+var thisCamp1638 = document.getElementById('2017/06/LAN-1638/');
+if (thisCamp1638) {
+    var trackingId = thisCamp1638.getAttribute('data-tracking-id');
+    var offers = thisCamp1638.querySelectorAll('.module-content .content-item');
+    for (var i = 0; i < this.offers.length; i++) {
+        var el = this.offers[i];
+        var partner = el.getAttribute('data-partner');
+        var offer = el.getAttribute('data-offernode');
+        var type = el.getAttribute('data-offertype');
+        var jsonURL = el.getAttribute('data-json');
+        var payload = {
+            'q': 'Promise'
+        };
+        var nowTS = new Date().getTime();
+        var localData = JSON.parse(localStorage.getItem(offer + type + jsonURL));
+        if (localData !== null && nowTS - localData.timeStamp <= 24 * 60 * 60 * 1000) {
+            dailydealsComponent.loadHTML(localData, el, type, partner);
+        } else {
+            dailydealsComponent.fetchData(el, partner, offer, type, jsonURL).get(payload).catch(dailydealsComponent.xrhCallback.error);
+        }
+    }
+    if (trackingId) {
+        //trackingId retrievable
+        dailydealsComponent.clickTracking();
+    }
+}

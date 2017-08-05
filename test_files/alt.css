@@ -1,0 +1,85 @@
+/**
+ * @license
+ * MyFonts Webfont Build ID 2993705, 2015-03-18T20:10:33-0400
+ * 
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s) entered into by the website owner. All other parties are 
+ * explicitly restricted from using the Licensed Webfonts(s).
+ * 
+ * You may obtain a valid license at the URLs below.
+ * 
+ * Webfont: MuseoSlab-1000Italic by exljbris
+ * URL: http://www.myfonts.com/fonts/exljbris/museo-slab/1000-italic/
+ * Licensed pageviews: 500,000
+ * 
+ * Webfont: MuseoSlab-100 by exljbris
+ * URL: http://www.myfonts.com/fonts/exljbris/museo-slab/100/
+ * Licensed pageviews: 500,000
+ * 
+ * Webfont: MuseoSlab-700 by exljbris
+ * URL: http://www.myfonts.com/fonts/exljbris/museo-slab/700/
+ * Licensed pageviews: 500,000
+ * 
+ * Webfont: MuseoSlab-900 by exljbris
+ * URL: http://www.myfonts.com/fonts/exljbris/museo-slab/900/
+ * Licensed pageviews: 500,000
+ * 
+ * Webfont: MuseoSlab-300 by exljbris
+ * URL: http://www.myfonts.com/fonts/exljbris/museo-slab/300/
+ * Licensed pageviews: 500,000
+ * 
+ * Webfont: MuseoSlab-1000 by exljbris
+ * URL: http://www.myfonts.com/fonts/exljbris/museo-slab/1000/
+ * Licensed pageviews: 500,000
+ * 
+ * Webfont: MuseoSlab-500 by exljbris
+ * URL: http://www.myfonts.com/fonts/exljbris/museo-slab/500/
+ * Licensed pageviews: 100,500,000
+ * 
+ * Webfont: MuseoSlab-300Italic by exljbris
+ * URL: http://www.myfonts.com/fonts/exljbris/museo-slab/300-italic/
+ * Licensed pageviews: 500,000
+ * 
+ * Webfont: MuseoSlab-700Italic by exljbris
+ * URL: http://www.myfonts.com/fonts/exljbris/museo-slab/700-italic/
+ * Licensed pageviews: 500,000
+ * 
+ * Webfont: MuseoSlab-500Italic by exljbris
+ * URL: http://www.myfonts.com/fonts/exljbris/museo-slab/500-italic/
+ * Licensed pageviews: 500,000
+ * 
+ * Webfont: MuseoSlab-900Italic by exljbris
+ * URL: http://www.myfonts.com/fonts/exljbris/museo-slab/900-italic/
+ * Licensed pageviews: 500,000
+ * 
+ * Webfont: MuseoSlab-100Italic by exljbris
+ * URL: http://www.myfonts.com/fonts/exljbris/museo-slab/100-italic/
+ * Licensed pageviews: 500,000
+ * 
+ * 
+ * License: http://www.myfonts.com/viewlicense?type=web&buildid=2993705
+ * Webfonts copyright: Copyright (c) 2009 by Jos Buivenga. All rights reserved.
+ * 
+ * © 2015 MyFonts Inc
+*/
+
+/* @import must be at top of file, otherwise CSS will not work 
+@import url("//hello.myfonts.net/count/2dae29");*/
+
+@font-face {font-family: 'MuseoSlab'; font-weight: 100; font-style: normal; src: url('webfonts/2DAE29_1_0.eot');src: url('webfonts/2DAE29_1_0.eot?#iefix') format('embedded-opentype'),url('webfonts/2DAE29_1_0.woff2') format('woff2'),url('webfonts/2DAE29_1_0.woff') format('woff'),url('webfonts/2DAE29_1_0.ttf') format('truetype');}  
+@font-face {font-family: 'MuseoSlab'; font-weight: 100; font-style: italic; src: url('webfonts/2DAE29_B_0.eot');src: url('webfonts/2DAE29_B_0.eot?#iefix') format('embedded-opentype'),url('webfonts/2DAE29_B_0.woff2') format('woff2'),url('webfonts/2DAE29_B_0.woff') format('woff'),url('webfonts/2DAE29_B_0.ttf') format('truetype');}
+
+@font-face {font-family: 'MuseoSlab'; font-weight: 300; font-style: normal; src: url('webfonts/2DAE29_4_0.eot');src: url('webfonts/2DAE29_4_0.eot?#iefix') format('embedded-opentype'),url('webfonts/2DAE29_4_0.woff2') format('woff2'),url('webfonts/2DAE29_4_0.woff') format('woff'),url('webfonts/2DAE29_4_0.ttf') format('truetype');}  
+@font-face {font-family: 'MuseoSlab'; font-weight: 300; font-style: italic; src: url('webfonts/2DAE29_7_0.eot');src: url('webfonts/2DAE29_7_0.eot?#iefix') format('embedded-opentype'),url('webfonts/2DAE29_7_0.woff2') format('woff2'),url('webfonts/2DAE29_7_0.woff') format('woff'),url('webfonts/2DAE29_7_0.ttf') format('truetype');}  
+
+@font-face {font-family: 'MuseoSlab'; font-weight: 500; font-style: normal; src: url('webfonts/2DAE29_6_0.eot');src: url('webfonts/2DAE29_6_0.eot?#iefix') format('embedded-opentype'),url('webfonts/2DAE29_6_0.woff2') format('woff2'),url('webfonts/2DAE29_6_0.woff') format('woff'),url('webfonts/2DAE29_6_0.ttf') format('truetype');}  
+@font-face {font-family: 'MuseoSlab'; font-weight: 500; font-style: italic; src: url('webfonts/2DAE29_9_0.eot');src: url('webfonts/2DAE29_9_0.eot?#iefix') format('embedded-opentype'),url('webfonts/2DAE29_9_0.woff2') format('woff2'),url('webfonts/2DAE29_9_0.woff') format('woff'),url('webfonts/2DAE29_9_0.ttf') format('truetype');}  
+
+@font-face {font-family: 'MuseoSlab'; font-weight: 700; font-style: normal; src: url('webfonts/2DAE29_2_0.eot');src: url('webfonts/2DAE29_2_0.eot?#iefix') format('embedded-opentype'),url('webfonts/2DAE29_2_0.woff2') format('woff2'),url('webfonts/2DAE29_2_0.woff') format('woff'),url('webfonts/2DAE29_2_0.ttf') format('truetype');}  
+@font-face {font-family: 'MuseoSlab'; font-weight: 700; font-style: italic; src: url('webfonts/2DAE29_8_0.eot');src: url('webfonts/2DAE29_8_0.eot?#iefix') format('embedded-opentype'),url('webfonts/2DAE29_8_0.woff2') format('woff2'),url('webfonts/2DAE29_8_0.woff') format('woff'),url('webfonts/2DAE29_8_0.ttf') format('truetype');}  
+
+@font-face {font-family: 'MuseoSlab'; font-weight: 900; font-style: normal; src: url('webfonts/2DAE29_3_0.eot');src: url('webfonts/2DAE29_3_0.eot?#iefix') format('embedded-opentype'),url('webfonts/2DAE29_3_0.woff2') format('woff2'),url('webfonts/2DAE29_3_0.woff') format('woff'),url('webfonts/2DAE29_3_0.ttf') format('truetype');}  
+@font-face {font-family: 'MuseoSlab'; font-weight: 900; font-style: italic; src: url('webfonts/2DAE29_A_0.eot');src: url('webfonts/2DAE29_A_0.eot?#iefix') format('embedded-opentype'),url('webfonts/2DAE29_A_0.woff2') format('woff2'),url('webfonts/2DAE29_A_0.woff') format('woff'),url('webfonts/2DAE29_A_0.ttf') format('truetype');}  
+
+@font-face {font-family: 'MuseoSlab'; font-weight: 1000; font-style: normal; src: url('webfonts/2DAE29_5_0.eot');src: url('webfonts/2DAE29_5_0.eot?#iefix') format('embedded-opentype'),url('webfonts/2DAE29_5_0.woff2') format('woff2'),url('webfonts/2DAE29_5_0.woff') format('woff'),url('webfonts/2DAE29_5_0.ttf') format('truetype');}  
+@font-face {font-family: 'MuseoSlab'; font-weight: 1000; font-style: italic; src: url('webfonts/2DAE29_0_0.eot');src: url('webfonts/2DAE29_0_0.eot?#iefix') format('embedded-opentype'),url('webfonts/2DAE29_0_0.woff2') format('woff2'),url('webfonts/2DAE29_0_0.woff') format('woff'),url('webfonts/2DAE29_0_0.ttf') format('truetype');}  

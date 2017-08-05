@@ -1,0 +1,780 @@
+var EHARMONY = window.EHARMONY || {};
+EHARMONY.corp = EHARMONY.corp || {};
+
+// EHARMONY.corp.locale
+// Usage:
+// if (EHARMONY.corp.locale.CP) {
+// if (EHARMONY.corp.locale.toString() === "CP") {
+EHARMONY.corp.locale = (function () {
+  var arr = /(eharmony|compatiblepartners)\.([A-z\.]+)$/.exec(document.location.host),
+      domain = arr != null ? arr[0] || 'eharmony.com' : 'eharmony.com';
+  
+  var locales = {
+    'eharmony.com'    : 'US',
+    'eharmony.ca'     : 'CA',
+    'eharmony.co.uk'  : 'UK',
+    'eharmony.com.au' : 'AU',
+    'eharmony.co.jp'  : 'JP',
+    'compatiblepartners.net' : 'CP',
+    'compatiblepartners.com' : 'CP'
+  };
+  var key = locales[domain] || 'US';
+  
+  var localeObject = {
+    US: false,
+    CA: false,
+    AU: false,
+    UK: false,
+    CP: false,
+    JP: false,
+    'key' : key, 
+    'domain' : domain,
+    'locales': locales,
+    toString: function () {
+      return this.key;
+    },
+    submitDomain: function () {
+      return /ninemsn|namoro/.test(document.location.host) ? document.location.host : "www."+this.domain;
+    }
+    
+  };
+  //Set the locale to true, so we can use "if(EHARMONY.corp.locale.US){"
+  localeObject[key] = true;
+  
+  return localeObject;    
+}());
+    
+
+// EHARMONY.corp.utils
+EHARMONY.corp.utils = {
+  getQueryParameters : function() {
+    var query = document.location.search.substring(1), //Everything but the ?
+        query_params = query.split("&"), //Split into pairs
+        keypair = [], data = {}, key, value,i;
+    for (i = 0; i < query_params.length; i += 1) {
+      keypair = query_params[i].split("=");
+      if (keypair.length === 2) {
+        key = keypair[0].replace(new RegExp('[^a-zA-Z0-9-_@.]+', 'g'), '').substr(0,70);
+        value = keypair[1].replace(new RegExp('[^a-zA-Z0-9-_@.]+', 'g'), '').substr(0,70);
+        data[key] = decodeURIComponent(value);
+      }
+      else { //If there is nothing on the other side of the equal sign, just set to true
+        data[keypair] = true;
+      }
+    }
+    return data;
+  },
+
+  //I dont even know if this is used anywhere, certainly not in this file. - Kaanon
+  getParameter: function (queryString, parameterName) {
+    // Add "=" to the parameter name (i.e. parameterName=value)
+    parameterName += "=";
+    var begin,end;
+        
+    if (queryString.length > 0) {
+      // Find the beginning of the string
+      begin = queryString.indexOf(parameterName);
+      // If the parameter name is not found, ignore, otherwise return the value
+      if (begin !== -1) {
+        // Add the length (integer) to the beginning
+        begin += parameterName.length;
+        // Multiple parameters are separated by the "&" sign
+        end = queryString.indexOf("&", begin);
+        if (end === -1) {
+          end = queryString.length;
+        } // End if
+                
+        // Return the string
+        return decodeURIComponent(queryString.substring(begin, end));
+      } // End if
+    } // End if
+    return "";
+  }
+};
+
+
+// Adding "trim" to String.prototype, instead of having it in utils
+if (typeof String.prototype.trim !== 'function') {
+    String.prototype.trim = function () {
+        return this.replace(/^\\s*(\\S*(\\s+\\S+)*)\\s*$/, "$1");
+    };
+}
+
+// only create EHARMONY.reg if jQuery is included
+if (typeof jQuery === 'function') {
+  // EHARMONY.reg
+  // Dependencies: jQuery, EHARMONY.corp.locale, String.protoype.trim
+  // Note: Does not currently support multiple registration forms on the same page
+  EHARMONY.reg = {
+    appendAffiliateTracking: function () {
+      var query_params = EHARMONY.corp.utils.getQueryParameters(),
+          key, value;
+            
+      //Remove password if it's passed in.
+      if(query_params.password) { delete(query_params.password); }
+            
+      //For each of the query parameters
+      for ( key in query_params ) {
+        value = query_params[key];
+        //Only set the parameter if the value is a string, no booleans or nulls
+        if(typeof(value) === 'string')
+        {
+          if ($(" [name="+key+"]", EHARMONY.reg.$form).length) {
+            $(" [name="+key+"]", EHARMONY.reg.$form).val(value);
+          } else {
+            EHARMONY.reg.$form.append("<input type='hidden' name='" + key + "' value='" + value + "' />");
+          }
+        }
+      }
+    },
+    setAction: function () {
+    // If locale exists, force appropriate form action URL.  Otherwise, leave as defined in document.
+      if (EHARMONY.corp.locale.submitDomain() !== "") {
+        EHARMONY.reg.form.action = "https://" + EHARMONY.corp.locale.submitDomain() + "/singles/servlet/homeRegS";
+      }
+    },
+        
+    shuffleFindEHValues: function () {
+      if ($("select[name=findEH]", EHARMONY.reg.$form).length) {
+        // Select all the findEH options (except "Please select...")
+        var options = $("select[name=findEH] option", EHARMONY.reg.$form).not(":eq(0)"),
+            tempHTML, tempValue,randomNumber;
+                  
+        options.each(function () {
+          // Choose a random option
+          randomNumber = Math.floor(Math.random() * 16) % options.length;
+                      
+          // Then swap HTML and values with that random option.
+          tempHTML = $(this).html();
+          tempValue = $(this).val();
+          $(this).html(options.eq(randomNumber).html());
+          $(this).val(options.eq(randomNumber).val());
+          options.eq(randomNumber).html(tempHTML);
+          options.eq(randomNumber).val(tempValue);
+        });
+      }
+    },
+        
+    insertLandingPageTrackingValue: function () {
+      var landingPageTrackingValue = '';
+        
+      // Checking for s.prop31
+      if (typeof s !== 'undefined' && typeof s.prop31 !== 'undefined') {
+        landingPageTrackingValue = s.prop31;
+      }
+      // Using parent-page if s.prop31 == ''
+      if (landingPageTrackingValue === '' && typeof sbms !== 'undefined' && typeof sbms.parent !== 'undefined' && typeof sbms.page !== 'undefined') {
+        landingPageTrackingValue = sbms.parent + '-' + sbms.page;
+      }
+
+      if(landingPageTrackingValue === '')
+      {
+        landingPageTrackingValue = document.location.pathname;
+      }
+
+      // Truncate if it exceeds the 30 character limit set in the database
+      if (landingPageTrackingValue.length >= 30) {
+        landingPageTrackingValue = landingPageTrackingValue.substring(0,29);
+      }
+      
+      // Set it to the landingPage hidden input field, or append it to the reg form if there isn't one
+      if ($("input[name=landingPage]", EHARMONY.reg.$form).length) {
+        $("input[name=landingPage]", EHARMONY.reg.$form).val(landingPageTrackingValue);
+        
+      } else {
+        EHARMONY.reg.$form.append('<input type="hidden" name="landingPage" value="' + landingPageTrackingValue + '" />');
+      }
+    },
+    
+      load_countries: function(){
+    var that = this;
+    this.countries = {}; 
+    $.getJSON('http://www.eharmony.com/lane/countrydata.php',function(data){
+        that.countries = data.countries;
+        that.ipcountry = data.ipcountry;
+        that.create_country_dropdown();
+    });
+  },
+  /**
+   * Create the dropdown. Just using a literal string for speed
+   */
+  create_country_dropdown: function () {
+    var literalOptions = '', selectedCountry, country;
+    for(var code in this.countries){
+        country = this.countries[code];
+        if(code == this.ipcountry){
+            selectedCountry = country.id;
+        }
+        literalOptions += '<option value="' + country.id + '">' + country.name + '</option>'; 
+    }
+    //First add the countries
+    $("select[name=country]", EHARMONY.reg.$form).append(literalOptions).val(selectedCountry);
+
+    //Select the country
+    var countrySelector =  ehcorp.locale.key;
+    if(ehcorp.locale.ids.hasOwnProperty(countrySelector)) {
+      $('[name=country]').val(ehcorp.locale.ids[countrySelector]);
+    }
+  },
+
+    
+    createFormSeals: function () {
+      var sealsHtml = "<ul>";
+      if (window.location.pathname.length <= 1) {
+        sealsHtml += '<li class="first truste"><a href="//privacy.truste.com/privacy-seal/validation?rid=03d7652a-aa71-46ad-9979-65ca69939af9" target="_blank"><img style="border: none" src="//privacy-policy.truste.com/privacy-seal/seal?rid=03d7652a-aa71-46ad-9979-65ca69939af9" alt="TRUSTe"/></a></li>';
+      }
+
+      // Create Security Seals on Reg Form
+      if (EHARMONY.corp.locale.UK) {
+        sealsHtml += '<li><script src="https://seal.verisign.com/getseal?host_name=www.eharmony.co.uk&size=S&use_flash=NO&use_transparent=NO&lang=en"></script></li></ul>';
+      
+      } else if (EHARMONY.corp.locale.AU) {
+        sealsHtml += '<br /><script src="https://seal.verisign.com/getseal?host_name=www.eharmony.com.au&size=S&use_flash=NO&use_transparent=NO&lang=en"></script>';
+      
+      } else if (EHARMONY.corp.locale.CA) {
+        sealsHtml += '<li><a href="http://www.bbb.org/losangelessiliconvalley/business-reviews/dating-service-online/eharmony-in-santa-monica-ca-13109297" target="_blank" onClick="launchPopupFlag=false;"><img src="http://static.eharmony.com/assets/images/home/bbb.gif" height="31" width="90" border="0" vspace="0" alt="BBB" /></a></li>';
+        sealsHtml += '<li><script src="https://seal.verisign.com/getseal?host_name=www.eharmony.com&size=S&use_flash=NO&use_transparent=NO&lang=en"></script></li></ul>';
+      
+      } else {
+        sealsHtml += '<li><a href="http://www.bbb.org/losangelessiliconvalley/business-reviews/dating-service-online/eharmony-in-santa-monica-ca-13109297" target="_blank" onclick="launchPopupFlag=false;"><img src="http://static.eharmony.com:80/static/images/home/bbb.gif" height="31" width="90" border="0" vspace="8" alt="BBB" /></a></li>';
+        sealsHtml += '<li class="last"><iframe scrolling="no" frameborder="0" id="seals-iframe" name="seals-iframe" src="http://www.eharmony.com/assets/corp/tabs0610/verisign.html" /></li></ul>';
+      }
+      
+      if (document.getElementById('form-seals')) {
+        document.getElementById('form-seals').innerHTML = sealsHtml;
+      }
+    }
+  };
+  
+  
+  //
+  // EHARMONY.reg.init
+  //
+  // Creates EHARMONY.reg.form and EHARMONY.reg.$form
+  //
+  EHARMONY.reg.init = function () {
+    var form = arguments[0] || document.registrationForm;
+    
+    if (typeof form !== 'undefined') {
+      EHARMONY.reg.form = form;
+      EHARMONY.reg.$form = $(form);
+    }
+    
+    // Build country dropdown dynamically
+    EHARMONY.reg.load_countries();
+      
+    // Append affiliate tracking to reg form (aid, cid, etc)
+    EHARMONY.reg.appendAffiliateTracking();
+      
+    // Onchange of country, switch the locale that the page is submitting to
+    $("select[name=country]").change(EHARMONY.reg.setRegActionToLocale);
+      
+    // Update or insert the landing page tracking hidden input field
+    EHARMONY.reg.insertLandingPageTrackingValue();
+      
+    // Shuffle <select name="findEH"> values
+    EHARMONY.reg.shuffleFindEHValues();
+    
+    // Create Security Seals
+    EHARMONY.reg.createFormSeals();
+  };
+  
+  
+  //
+  //
+  // EHARMONY.reg.validation
+  //
+  //
+  EHARMONY.reg.validation = {
+    
+    errorMessages: (function () {
+      // US, CA, UK | default values
+      var errorText = {
+        "alertMsg": "Some fields need correction:\n\n",
+        "firstName": "Please enter your first name.",
+        "gender": "Please select your gender.",
+        "postalCode": "Please enter your postal code.",
+        "emailAddress": [
+          "Please enter an email address.",
+          "Please enter a valid email address.",
+          "The email address contains illegal characters.",
+          "The confirm email address does not match."
+        ],
+        "password": [
+          "Please enter a password.",
+          "Your password must be at least 8 characters. To make it stronger, combine uppercase letters, lowercase letters, numbers and symbols."
+        ],
+        "findEH": "Please select how you found out about eHarmony.",
+        "terms": "Please select that you have read our Terms and Conditions."
+      };
+      
+      if (EHARMONY.corp.locale.AU) {
+        errorText.postalCode = "Please enter your postcode.";
+      }
+      else if (EHARMONY.corp.locale.CP) {
+        errorText.findEH = "Please select how you found out about Compatible Partners.";
+      }
+      
+      return errorText;
+    }()),
+    
+    // Validate on form submit
+    validate: function () {
+      var reason = "",
+        errorText = EHARMONY.reg.validation.errorMessages;
+
+      reason += EHARMONY.reg.validation.checkEmpty($("form[name=registrationForm] [name=firstName]"), errorText.firstName);
+      reason += EHARMONY.reg.validation.checkEmpty($("form[name=registrationForm] [name=gender]"), errorText.gender);
+
+      reason += EHARMONY.reg.validation.checkEmpty($("form[name=registrationForm] [name=postalCode]"), errorText.postalCode);
+      reason += EHARMONY.reg.validation.checkPostalCode($("form[name=registrationForm] [name=postalCode]"));
+
+      reason += EHARMONY.reg.validation.checkEmail(
+        $("form[name=registrationForm] [name=emailAddress]"),
+        $("form[name=registrationForm] input[name=confirmEmail]"),
+        errorText.emailAddress
+      );
+      reason += EHARMONY.reg.validation.checkPassword($("form[name=registrationForm] [name=password]"), errorText.password);
+      
+      if ($("form[name=registrationForm] [name=findEH]").length) {
+        reason += EHARMONY.reg.validation.checkEmpty($("form[name=registrationForm] [name=findEH]"), errorText.findEH);
+      }
+      
+      if ($("form[name=registrationForm] [name=terms]").length) {
+        reason += EHARMONY.reg.validation.checkTerms($("form[name=registrationForm] [name=terms]"), errorText.terms);
+      } // End if
+      
+      if (reason !== "") {
+        EHARMONY.reg.validation.regAlert(errorText.alertMsg + reason);
+        return false;
+      }
+      
+      return true;
+    },
+    
+    // Overridable for unit tests
+    regAlert: function (alertString) {
+      alert(alertString);
+    },
+    
+    checkEmpty: function (field, fieldError) {
+      var errorMessage = "";
+      
+      if (field.val().length === 0) {
+        field.css('background-color', 'Yellow');
+        errorMessage = fieldError + "\n";
+      } else {
+        field.css('background-color', 'White');
+      }
+      return errorMessage;
+    },
+    
+    checkEmail: function (field, fieldConfirm, fieldError) {
+      // The "fieldError" parameter should be an array with 4 values
+      
+      var errorMessage = "",
+        tfld = field.val().trim(),
+        tfldConfirm = fieldConfirm.val().trim(),
+        emailFilter = /^[^@]+@[^@.]+\.[^@]*\w\w$/,
+        illegalChars = /[\(\)\<\>\,\;\:\\\"\[\]]/;
+      
+      if (field.val() === "") {
+        field.css('background-color', 'Yellow'); 
+        errorMessage = fieldError[0] + "\n";
+      } else if (!emailFilter.test(tfld)) { //check email for illegal characters
+        field.css('background-color', 'Yellow'); 
+        errorMessage = fieldError[1] + "\n";
+      } else if (field.val().match(illegalChars)) {
+        field.css('background-color', 'Yellow'); 
+        errorMessage = fieldError[2] + "\n";
+      } else {
+        field.css('background-color', 'White');
+        fieldConfirm.css('background-color', 'White');
+        if (tfld !== tfldConfirm) {
+          errorMessage = fieldError[3] + "\n";
+          field.css('background-color', 'Yellow');
+          fieldConfirm.css('background-color', 'Yellow');
+        }
+      }
+      
+      return errorMessage;
+    },
+    checkPostalCode: function(field){
+      var errorMessage = "",
+          value = field.val(),
+          countryInput = $('select[name="country"]'),
+          selectedCountry = countryInput.val(),
+          countries = EHARMONY.reg.countries,
+          country, code, regex;
+
+        for(code in countries){ 
+            country = countries[code];
+            if(country.id == selectedCountry){ 
+                if(country.regex === ''){
+                    return "";
+                } else {
+                    regex = new RegExp('^' + country.regex + '$', 'i');
+                    return regex.test(value) ? "" : 'Invalid Postal Code' + "\n";
+                }
+                
+            } 
+        }
+        return errorMessage;
+    },
+    checkPassword: function (field, fieldError) {
+      // The "fieldError" parameter should be an array with 2 values
+      
+      var errorMessage = "";
+      
+      if (field.val().length === 0) {
+        field.css('background-color', 'Yellow');
+        errorMessage = fieldError[0] + "\n";
+      } else if (field.val().length < 8) {
+        field.css('background-color', 'Yellow'); 
+        errorMessage = fieldError[1] + "\n";
+      } else {
+        field.css('background-color', 'White');
+      }
+      
+      return errorMessage;
+    },
+    
+    checkTerms: function (field, fieldError) {
+      var errorMessage = "";
+      
+      if (!field.is(":checked")) {
+        errorMessage = fieldError + "\n";
+      } 
+      return errorMessage;
+    }
+    
+  };
+  
+  /**
+ * Add parameters to a form
+ * @type {Object}
+ */
+EHARMONY.extraParams = {
+
+    /**
+     * Delete element from the DOM
+     * @method deleteFieldbyName
+     * @param  {String}    field The name
+     * @return {[type]}
+     */
+    deleteFieldbyName: function (field) {
+        var elem = document.getElementsByName(field)[0];
+        elem.parentNode.removeChild(elem);
+    },
+    /**
+     * Return a parameter from a form
+     * @method getParameter
+     * @param  {Object}     form            The form
+     * @param  {}           paramName       The param to be returned
+     * @param {Boolean}     deleteParam     Delete the parameter
+     * @return {String}
+     */
+    getParameter: function (form, paramName) {
+        var result,
+            serializedResults;
+
+        if (!(form instanceof $)) {
+            form = $(form);
+        }
+
+        serializedResults = form.serializeArray();
+
+        for (var element in serializedResults) {
+            if (serializedResults[element].name === paramName) {
+                return serializedResults[element].value;
+            };
+        }
+        return false;
+    },
+    /**
+     * Add extra parameters to the form
+     * @method addExtraParameter
+     * @param  {Object} form        the form to be updated
+     * @param  {String} name        the input name
+     * @param  {String} value       the input value
+     * @return {Object} The modified form
+     */
+    addExtraParameter : function (form, name, value) {
+        var newElement   = document.createElement('input');
+        newElement.type  = 'hidden';
+        newElement.name  = name;
+        newElement.value = value;
+
+        form.appendChild(newElement);
+        return form;
+    },
+    /**
+     * Delete old input in the form and create a new one
+     * with the new value
+     * @method switchParameters
+     * @param  {Object}         form      form element to return with the new value
+     * @param  {String}         paramName name of the element to delete & create
+     * @param  {String}         newValue  The new value of the new element
+     * @return {Object}
+     */
+    switchParameters: function (form, paramName, newValue) {
+        var newElement   = document.createElement('input');
+
+        // Delete old field
+        this.deleteFieldbyName(paramName);
+
+        // Create new element with the new value
+        newElement.type  = 'hidden';
+        newElement.name  = paramName;
+        newElement.value = newValue;
+
+        form.appendChild(newElement);
+        return form;
+    }
+};
+  
+  //
+  //
+  // EHARMONY.reg.gender
+  //
+  //
+  EHARMONY.reg.gender = {
+    
+    options: (function () {
+      var options = {
+        // US, CA, UK, AU | default values
+        overlayMarkup: '<h1>Would you like to go to Compatible Partners?</h1><p>Welcome to eHarmony&#8217;s gay and lesbian dating page, <b>Compatible Partners</b>, an eHarmony service for gay and lesbian singles seeking long term relationships.</p><button class="btn-cancel"><span>Close</span></button><button class="btn-confirm"><span>Take me to Compatible Partners</span></button>',
+        overlaySelector: "cp_confirm",
+        genderField: "gender2",
+        redirectUrl: "http://www.compatiblepartners.net/eHarmony/?cid=61953&"
+      };
+  
+      // CP
+      if (EHARMONY.corp.locale.CP) {
+        options.overlayMarkup = '<h1>Please Confirm</h1><p>You are about to be taken to <b>eHarmony</b>, the first online service to scientifically match highly compatible singles of the <b>opposite sex</b> for long-term relationships.</p><button type="button" class="btn-cancel"><span>Cancel</span></button><button type="button" class="btn-confirm"><span>Confirm</span></button>';
+        options.overlaySelector = "eh_confirm";
+        options.genderField = "genderPreference";
+        options.redirectUrl = "http://www.eharmony.com/?";
+      }
+      
+      return options;
+    }()),
+    
+    swap: function () {
+      $("select[name=" + EHARMONY.reg.gender.options.genderField + "]").val($("select[name=gender] option:selected").val());
+    },
+    
+    
+    createOverlay: function (form) {
+      
+      var options = EHARMONY.reg.gender.options;
+      
+      var genderOverlay = $('<div class="gender-overlay" id="'+options.overlaySelector+'"></div>').html(options.overlayMarkup).dialog({
+        closeText: '',
+        modal:true,
+        height:211,
+        width: 472  
+      });
+      
+      //Analytics custom link tracking
+      if (typeof _gaq.push != "undefined") {
+        _gaq.push(['_trackEvent', options.overlaySelector+' Reg Overlay', 'Launched']);
+      }
+      
+      //Continue Button
+      $(".gender-overlay .btn-confirm").click(function () {
+        
+        if (form instanceof($)) {
+          form = $(form).get(0);
+        }
+
+        //Analytics custom link tracking
+        if (typeof _gaq.push != "undefined") {
+          _gaq.push(['_trackEvent', options.overlaySelector+' Reg Overlay', 'Accepted', options.overlaySelector]);
+        }
+        
+        // Get the gender2 value
+        var genderValue = EHARMONY.extraParams.getParameter(form, 'gender2');
+
+        // Add the new value to the form
+        form = EHARMONY.extraParams.addExtraParameter(form, 'genderPreference', genderValue);
+
+        // Delete the extra inputs
+        EHARMONY.extraParams.deleteFieldbyName('gender2');
+
+        // Change the genderinput values according to the CP regForm
+        // 1 === 'men'
+        // 2 === 'women'
+        if (genderValue == 1) {
+          form = EHARMONY.extraParams.switchParameters(form, 'gender', 2);
+          form = EHARMONY.extraParams.switchParameters(form, 'genderPreference', 2);
+        } else if (genderValue == 2) {
+          form = EHARMONY.extraParams.switchParameters(form, 'gender', 1);
+          form = EHARMONY.extraParams.switchParameters(form, 'genderPreference', 1);
+        }
+
+        // Change the form action to CP reg backend
+        form.action = 'https://www.compatiblepartners.net/singles/servlet/homeRegS';
+
+        /*SWT-7921: Required to prevent login issues*/
+        $("input[type=image], button[type=submit]", $("form[name=registrationForm]")).attr('disabled', 'disabled');
+        if (ehcorp.deviceID) {
+          ehcorp.deviceID.deleteSessionCookies();
+          ehcorp.deviceID.set_deviceid_cookie();
+        }
+        // Submit the form to CP
+        form.submit();
+      });
+      
+      //Cancel Button
+      $(".gender-overlay .btn-cancel").click(function () {
+        genderOverlay.dialog('close');
+              
+        //Analytics custom link tracking
+        if (typeof _gaq.push != "undefined") {
+          _gaq.push(['_trackEvent', options.overlaySelector+' Reg Overlay', 'Cancelled', options.overlaySelector]);
+        }
+        
+      });
+      
+    },
+    launchOverlay: function (form) {
+      // Check if JQuery UI is already loaded, and load it if is not
+      // Required for gender overlay dialog
+      if (typeof jQuery.ui === "undefined") {
+        $.getScript('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js', function(){
+          EHARMONY.reg.gender.createOverlay(form);
+        });
+      } else {
+        EHARMONY.reg.gender.createOverlay(form);
+      }
+      
+    }
+  
+  };
+  
+  EHARMONY.reg.tracker = {
+    trackRegForm : function(type)
+    {
+    var url = window.location.href,
+      url_section = function(x){ return (x != "" && x!='/'); },
+      path_array = $.grep(window.location.pathname.split('/'),url_section),
+      site_section;
+    
+    if(path_array.length <= 1)
+    {
+      site_section = 'root'
+    }
+    else
+    {
+      site_section = path_array.shift();  
+    }
+    
+    this.trackEvent('Singles Reg Form',site_section,url);  
+    },
+  
+    /*
+     * trackEvent('Singles RegForm','root');
+    */
+    trackEvent : function(category,action,label,value)
+    {
+    //Analytics custom link tracking
+    if (typeof _gaq != "undefined" && typeof _gat != "undefined" && typeof _gat._getTrackerByName != "undefined" ) {
+      var pageTracker = _gat._getTrackerByName();
+      pageTracker._trackEvent(category,action,label,value);
+    }
+    }
+  };
+  
+  
+  
+// ==================================================
+// 
+// jQuery DOM ready
+//
+// ==================================================
+  $(function() {
+  // Check if reg form exists
+  if (typeof document.registrationForm !== 'undefined') {
+        
+    var regForm = document.registrationForm,
+      $regForm = $(regForm),
+      zipCode = document.getElementById("zipCode");
+        
+        
+    //Sets up all the reg form stuff
+    EHARMONY.reg.init();
+        
+    // Set reg action based on locale // jQuery-less
+    if( typeof(persistRegAction) == 'undefined' || persistRegAction == false ) {
+    EHARMONY.reg.setAction();
+    }
+
+        
+    // Set zipcode to clear onfocus // jQuery-less
+    zipCode.onfocus = function () {
+    zipCode.value = "";
+    };
+        
+    // special CEP (Postal Code) lookup pop-up for BR
+    $('.poptrigger').click(function () {
+    window.open(this.href, '', '"height=800,width=800,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable=yes"');
+    return false;
+    });
+
+        
+    // Monitor Gender selection validity for site user is on
+    if (typeof regForm.gender !== 'undefined' && (typeof regForm.gender2 !== 'undefined' || typeof regForm.genderPreference !== 'undefined')) {
+    // onchange of gender, update genderpreference value
+    $("select[name=gender]", $regForm).change(function () {
+      EHARMONY.reg.gender.swap();
+    });
+          
+    // On Submit
+    $("input[type=image], button[type=submit]", $("form[name=registrationForm]")).click(function (e) {
+
+      //if gender selections do not validate, do not submit form and launch redirection overlay
+      if ($("select[name=gender]").val() !== $("select[name=" + EHARMONY.reg.gender.options.genderField + "]").val()) {   
+        // Get the clicked form
+        var form = $(this).parents('form');
+        EHARMONY.reg.gender.launchOverlay(form);
+        return false;
+      }
+      
+      if(EHARMONY.reg.validation.validate())
+      {
+      EHARMONY.reg.tracker.trackRegForm();
+
+      /*SWT-7921: Required to prevent login issues*/
+      $("input[type=image], button[type=submit]", $("form[name=registrationForm]")).attr('disabled', 'disabled');
+      if (ehcorp.deviceID) {
+        ehcorp.deviceID.deleteSessionCookies();
+        ehcorp.deviceID.set_deviceid_cookie();
+      }
+      return true;
+      }
+      return false;
+    });
+       
+    }
+    else //We still need to do the validation, even if there is no gender2 dropdown
+    {
+    $("input[type=image], button[type=submit]", $("form[name=registrationForm]")).click(function (e) {
+      if(EHARMONY.reg.validation.validate())
+      {
+      EHARMONY.reg.tracker.trackRegForm();
+      return true;
+      }
+      return false;
+    });
+    }
+            
+        
+  } // End if (page has regform)
+}); // End (on ready)
+
+// ==================================================
+// END jQuery DOM ready
+// ==================================================
+
+} // End if ( jQuery exists )
