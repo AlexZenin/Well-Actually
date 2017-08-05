@@ -25,7 +25,7 @@
 						<input type="text" name="text" placeholder="text" id="user_input">
 					</div>
 				</div>
-				<input type="submit" class="ui primary button" onclick="showInput();">
+				<input type="submit" class="ui primary button" onclick="showInDisplay();">
 			</div>
 		</div>
 		<div class="ui container">
@@ -37,6 +37,19 @@
 			function showInput() {
 		        document.getElementById('display').innerHTML = 
 		                    document.getElementById("user_input").value;
+		    }
+
+		    // Gets the text from the provided url
+		    function getResultFrom(url) {
+		    	var xmlHttp = new XMLHttpRequest();
+		    	xmlHttp.open("GET", url, false);
+		    	xmlHttp.send(null);
+		    	return xmlHttp.responseText;
+		    }
+
+		    // Shows result on the display
+		    function showInDisplay(value) {
+		    	document.getElementById('display').innerHTML = getResultFrom('/test');
 		    }
 		</script>
 	</body>
