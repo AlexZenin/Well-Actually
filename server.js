@@ -1,6 +1,9 @@
 const express = require('express')
 const bodyParser = require("body-parser")
 const http = require("http")
+const request = require("request")
+// require('request').debug = true
+const querystring = require("querystring")
 const app = express()
 
 app.set('port', (process.env.PORT) || 8080 )
@@ -40,18 +43,53 @@ app.use(bodyParser.json());
 
 // Header information
 
-var azure_options = {
-	"Ocp-Apim-Subscription-Key": "13b99fb3f346435d863bc48b933d8ab6",
-	"Content-Type": "application/json",
-	"Host": "westus.api.cognitive.microsoft.com"
+var azureEndpoint = "languages"
+
+// possible endpoints: "sentiment", "keyPhrases", "languages"
+
+var azureBody = JSON.stringify({
+  "documents": [
+    {
+      "id": "string",
+      "text": "string"
+    }
+  ]
+})
+
+var azureOptions = {
+	url: "https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/" + azureEndpoint,
+	method: "POST",
+	headers:{
+		"Ocp-Apim-Subscription-Key": "13b99fb3f346435d863bc48b933d8ab6",
+		"Content-Type": "application/json",
+		"Host": "westus.api.cognitive.microsoft.com"
+	},
+	body: JSON.parse(azureBody),
+	json: true
 };
 
 // Main post request for processing data 
 
 app.post('/process', function(req, res){
-	console.log(req.body.text);
-	res.end("you hit it!")
+
+	var text = req.body.text;
+
+	console.log(text);
+
+	// Start the request
+	request(azureOptions, function (error, response, body) {
+	    if (!error && response.statusCode == 200) {
+	        // Print out the response body
+	        console.log(body)
+	    } else {
+			console.log(error);
+	    }
+	})
+
+
+	res.end("Well done, you hit the enpoint!")
 })
+
 
 
 //********************/
