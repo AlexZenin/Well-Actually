@@ -1,18 +1,12 @@
 const express = require('express')
 const app = express()
-const server = require('http').createServer(app)
 
-server.listen(8080)
+app.set('port', (process.env.PORT) || 8080 )
 
-const sources = [
-	{ 
-		"title": "Top 10 Anime Betrayals",
-		"url": "http://nyan.cat"
-	}
-]
-
-app.get('/test', function(req, res) {
-	res.end(JSON.stringify(sources))
+app.get('/', function(req, res) {
+	res.end('hello world')
 })
 
-console.log('Server started. Connect @ http://localhost:8080')
+app.listen(app.get('port'), function() {
+	console.log('Node app is running on port', app.get('port'))
+})
