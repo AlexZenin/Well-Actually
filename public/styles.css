@@ -1,0 +1,21 @@
+@font-face {
+    font-family: hairline; /*title*/
+    src: url(fonts/Montserrat-Hairline.otf);
+}
+@font-face {
+    font-family: light; /*text*/
+    src: url(fonts/Montserrat-Light.otf);
+}
+@font-face {
+    font-family: regular; /*bold*/
+    src: url(fonts/Montserrat-Regular.otf);
+}
+html{
+	font-family: light;
+}
+.title{
+	font-family: hairline;
+}
+.bold{
+	 font-family: regular;
+}
