@@ -10,10 +10,12 @@
 	},
 	"dependencies": {
 		"body-parser": "^1.17.2",
-		"express": "^4.15.3"
+		"express": "^4.15.3",
+		"node-readability": "^2.2.0",
+		"sanitize-html": "^1.14.1"
 	},
 	"scripts": {
 		"start": "node server.js",
-		"test": "node test.js"
+		"test": "node src/test.js"
 	}
 }
