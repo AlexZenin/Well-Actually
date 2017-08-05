@@ -1,5 +1,6 @@
 const articleParser = require('./parser')
 const bodyParser = require('body-parser')
+const suggest = require('./suggest')
 const express = require('express')
 const app = express()
 
@@ -20,11 +21,13 @@ app.post('/post', function(req, res) {
 	// Get the article's text from the given URL
 	const text = articleParser(url)
 
-	// Get the results after passing the text to Azure's magicz
-	const results = ''
+	// Get the keywords after passing the text to Azure's magicz
+	const keywords = ['banana', 'animal']
 
-	// Send the results back to the client
-	res.end(results)
+	// Get a list of relevant articles given keywords then send it back to the client
+	suggest(keywords, function(err, articles) {
+		res.end(articles)
+	})
 })
 
 app.listen(app.get('port'), function() {
