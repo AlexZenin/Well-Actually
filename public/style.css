@@ -1,5 +1,201 @@
+@font-face {
+    font-family: hairline; /*title*/
+    src: url(fonts/Montserrat-Hairline.otf);
+}
+@font-face {
+    font-family: light; /*text*/
+    src: url(fonts/Montserrat-Light.otf);
+}
+@font-face {
+    font-family: regular; /*bold*/
+    src: url(fonts/Montserrat-Regular.otf);
+}
+html{
+	font-family: light;
+}
+.title{
+	font-family: light;
+	font-size: 0.5em;
+	position: relative;
+	opacity: 0;
+	top: -1em;
+	line-height: 0.5em !important;
+	animation-name: titletext;
+    animation-duration: 1.5s;
+    animation-delay: 0.7s;
+    animation-fill-mode: forwards; // Stay on the last frame
+    animation-iteration-count: 1; // Run only once
+    animation-timing-function: fadein;
+}
+@keyframes titletext {
+	0% { opacity:0; }
+	100% { opacity:1; }
+}
+.dots{
+	position: relative;
+	top: -1em;
+}
+.bold{
+	 font-family: regular;
+}
 .shaded {
 	background-color: rgba(0,0,0,.25);
 	border 1px solid black;
 	min-height: 32px;
+}
+.logo{
+	width: 35vw;
+	margin-top: 4em;
+}
+.path1{
+	stroke-dasharray: 300;
+	stroke-dashoffset: -300;
+	animation-name: v;
+    animation-duration: 1.3s;
+    animation-fill-mode: forwards; // Stay on the last frame
+    animation-iteration-count: 1; // Run only once
+    animation-timing-function: ease-in;
+}
+@keyframes v {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.path2{
+	stroke-dasharray: 300;
+	stroke-dashoffset: -300;
+	animation-name: w;
+	animation-delay: 0.3s;
+    animation-duration: 1.3s;
+    animation-fill-mode: forwards; // Stay on the last frame
+    animation-iteration-count: 1; // Run only once
+    animation-timing-function: ease-in;
+}
+@keyframes w {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.path3{
+	stroke-width:0;
+	animation-duration: 0.7s;
+	animation-delay: 0.6s;
+    animation-iteration-count: 1;
+    animation-name: dot;
+    animation-timing-function: ease-in;
+    transform-origin: center center;
+    animation-fill-mode: forwards; // Stay on the last frame
+}
+@keyframes dot {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(3);
+    }
+    100%{
+    	transform: scale(1);
+    	stroke-width:8;
+    	fill: #000;
+    }
+}
+
+.path4{
+	stroke-dasharray: 300;
+	stroke-dashoffset: 300;
+	animation-name: A;
+    animation-duration: 1.3s;
+    animation-fill-mode: forwards; // Stay on the last frame
+    animation-iteration-count: 1; // Run only once
+    animation-timing-function: ease-in;
+}
+@keyframes A {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.urlwrap{
+  opacity:0;
+  height: 3em;
+  width: 30em !important;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  margin:auto;
+  animation-name: url;
+    animation-duration: 1s;
+    animation-delay: 1.3s;
+    animation-fill-mode: forwards; // Stay on the last frame
+    animation-iteration-count: 1; // Run only once
+    animation-timing-function: fadein;
+}
+@keyframes url {
+  0% { opacity:0; }
+  100% { opacity:1; }
+}
+
+.shape {
+  fill: transparent;
+  stroke-dasharray: 0 5em 20em 5em 0 36em;
+  stroke-dashoffset: 33em;
+  stroke-width: 5px;
+  stroke: #01ABAA;
+}
+
+.url {
+outline: none;
+  line-height: 3em;
+  position: relative;
+  padding: 0;
+  top: -3.4em;
+  border: none;
+  background-color: rgba(0,0,0,0);
+  height: 3em;
+  width: 27em;
+  margin-right: 3em;
+  text-indent: 3em;
+  text-align: center;
+}
+.url:focus::-webkit-input-placeholder { color:transparent; }
+.url:focus:-moz-placeholder { color:transparent; } /* FF 4-18 */
+.url:focus::-moz-placeholder { color:transparent; } /* FF 19+ */
+.url:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
+
+@keyframes draw {
+  0% {
+    stroke-dasharray: 20em 33em;
+    stroke-dashoffset: -33em;
+    stroke-width: 8px;
+  }
+  100% {
+    stroke-dasharray: 66em;
+    stroke-dashoffset: 0;
+    stroke-width: 2px;
+  }
+}
+
+.urlwrap:hover .shape {
+  -webkit-animation: 0.3s draw linear forwards;
+  animation: 0.3s draw linear forwards;
+}
+.search{
+	width: 2.3em;
+	height: 2.3em;
+	position: relative;
+	top: -6em;
+	left: 13.4em;
+	opacity: 0.0;
+}
+.search:hover{
+	cursor: pointer;
+	cursor: hand; 
+}
+.urlwrap:hover .search{
+	opacity: 0.8;
+  -webkit-transition: opacity 1s ease;
+  transition: opacity 1s ease;
+}
+.sources{
+  text-align: center;
+  padding: 1em;
 }
