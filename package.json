@@ -1,5 +1,9 @@
 {
   "dependencies": {
     "express": "^4.15.3"
+  },
+  "scripts": {
+  	"start": "node index.js",
+  	"test": "node test.js"
   }
 }
