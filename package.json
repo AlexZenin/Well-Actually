@@ -9,6 +9,7 @@
 		"node": ">=6.9.0"
 	},
 	"dependencies": {
+		"best-image": "^2.0.0",
 		"body-parser": "^1.17.2",
 		"express": "^4.15.3",
 		"node-readability": "^2.2.0",
