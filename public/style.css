@@ -11,16 +11,39 @@
     src: url(fonts/Montserrat-Regular.otf);
 }
 html{
-	font-family: light;
+  font-family: light;
 }
+.column{
+  pointer-events: none;
+}
+
+.background{
+  min-width:100%;
+  min-height: 100%;
+  position: fixed;
+}
+.background g g{
+  opacity: 0.1;
+  transition: opacity 1.3s ease-in-out;
+    -moz-transition: opacity 1.3s ease-in-out;
+    -webkit-transition: opacity 1.3s ease-in-out;
+}
+
+.background g g:hover{
+  opacity: 0.8;
+  transition: opacity .2s ease-in-out;
+    -moz-transition: opacity .2s ease-in-out;
+    -webkit-transition: opacity .2s ease-in-out;
+}
+
 .title{
-	font-family: light;
-	font-size: 0.5em;
-	position: relative;
-	opacity: 0;
-	top: -1em;
-	line-height: 0.5em !important;
-	animation-name: titletext;
+  font-family: light;
+  font-size: 0.5em;
+  position: relative;
+  opacity: 0;
+  top: -1em;
+  line-height: 0.5em !important;
+  animation-name: titletext;
     animation-duration: 1.5s;
     animation-delay: 0.7s;
     animation-fill-mode: forwards; // Stay on the last frame
@@ -28,29 +51,29 @@ html{
     animation-timing-function: fadein;
 }
 @keyframes titletext {
-	0% { opacity:0; }
-	100% { opacity:1; }
+  0% { opacity:0; }
+  100% { opacity:1; }
 }
 .dots{
-	position: relative;
-	top: -1em;
+  position: relative;
+  top: -1em;
 }
 .bold{
-	 font-family: regular;
+   font-family: regular;
 }
 .shaded {
-	background-color: rgba(0,0,0,.25);
-	border 1px solid black;
-	min-height: 32px;
+  background-color: rgba(0,0,0,.25);
+  border 1px solid black;
+  min-height: 32px;
 }
 .logo{
-	width: 35vw;
-	margin-top: 4em;
+  width: 35vw;
+  margin-top: 4em;
 }
 .path1{
-	stroke-dasharray: 300;
-	stroke-dashoffset: -300;
-	animation-name: v;
+  stroke-dasharray: 300;
+  stroke-dashoffset: -300;
+  animation-name: v;
     animation-duration: 1.3s;
     animation-fill-mode: forwards; // Stay on the last frame
     animation-iteration-count: 1; // Run only once
@@ -62,10 +85,10 @@ html{
   }
 }
 .path2{
-	stroke-dasharray: 300;
-	stroke-dashoffset: -300;
-	animation-name: w;
-	animation-delay: 0.3s;
+  stroke-dasharray: 300;
+  stroke-dashoffset: -300;
+  animation-name: w;
+  animation-delay: 0.3s;
     animation-duration: 1.3s;
     animation-fill-mode: forwards; // Stay on the last frame
     animation-iteration-count: 1; // Run only once
@@ -77,9 +100,9 @@ html{
   }
 }
 .path3{
-	stroke-width:0;
-	animation-duration: 0.7s;
-	animation-delay: 0.6s;
+  stroke-width:0;
+  animation-duration: 0.7s;
+  animation-delay: 0.6s;
     animation-iteration-count: 1;
     animation-name: dot;
     animation-timing-function: ease-in;
@@ -94,16 +117,16 @@ html{
         transform: scale(3);
     }
     100%{
-    	transform: scale(1);
-    	stroke-width:8;
-    	fill: #000;
+      transform: scale(1);
+      stroke-width:8;
+      fill: #000;
     }
 }
 
 .path4{
-	stroke-dasharray: 300;
-	stroke-dashoffset: 300;
-	animation-name: A;
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  animation-name: A;
     animation-duration: 1.3s;
     animation-fill-mode: forwards; // Stay on the last frame
     animation-iteration-count: 1; // Run only once
@@ -140,6 +163,10 @@ html{
   stroke-dashoffset: 33em;
   stroke-width: 5px;
   stroke: #01ABAA;
+  pointer-events: all;
+  transition: fill 0.5s ease-in-out;
+    -moz-transition: fill 0.5s ease-in-out;
+    -webkit-transition: fill 0.5s ease-in-out;
 }
 
 .url {
@@ -155,6 +182,7 @@ outline: none;
   margin-right: 3em;
   text-indent: 3em;
   text-align: center;
+  pointer-events: all;
 }
 .url:focus::-webkit-input-placeholder { color:transparent; }
 .url:focus:-moz-placeholder { color:transparent; } /* FF 4-18 */
@@ -177,21 +205,23 @@ outline: none;
 .urlwrap:hover .shape {
   -webkit-animation: 0.3s draw linear forwards;
   animation: 0.3s draw linear forwards;
+  fill: rgba(255,255,255,0.5);
 }
 .search{
-	width: 2.3em;
-	height: 2.3em;
-	position: relative;
-	top: -6em;
-	left: 13.4em;
-	opacity: 0.0;
+  width: 2.3em;
+  height: 2.3em;
+  position: relative;
+  top: -6em;
+  left: 13.4em;
+  opacity: 0.0;
+  pointer-events: all;
 }
 .search:hover{
-	cursor: pointer;
-	cursor: hand; 
+  cursor: pointer;
+  cursor: hand; 
 }
 .urlwrap:hover .search{
-	opacity: 0.8;
+  opacity: 0.8;
   -webkit-transition: opacity 1s ease;
   transition: opacity 1s ease;
 }
