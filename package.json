@@ -16,6 +16,6 @@
 		"sanitize-html": "^1.14.1"
 	},
 	"scripts": {
-		"start": "node src/server.js"
+		"start": "node src/index.js"
 	}
 }
