@@ -9,9 +9,13 @@
 		"node": ">=6.9.0"
 	},
 	"dependencies": {
-		"express": "^4.15.3"
+		"body-parser": "^1.17.2",
+		"express": "^4.15.3",
+		"node-readability": "^2.2.0",
+		"rss-parser": "^2.10.1",
+		"sanitize-html": "^1.14.1"
 	},
 	"scripts": {
-		"start": "node server.js"
+		"start": "node src/server.js"
 	}
 }
