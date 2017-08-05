@@ -36,55 +36,52 @@ app.get('/test', function(req, res) {
 // Azure api calls
 //********************/
 
+
 //Here we are configuring express to use body-parser as middle-ware.
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Header information
-
-var azureEndpoint = "sentiment"
-var azureEndpoints = ["sentiment", "keyPhrases"]
-
-// possible endpoints: "sentiment", "keyPhrases", "languages"
-
-var azureBody = JSON.stringify({
-  "documents": [
-    {
-      "id": "string",
-      "text": "string"
-    }
-  ]
-})
-
-const azureOptions = {
-	url: "https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/",
-	method: "POST",
-	headers:{
-		"Ocp-Apim-Subscription-Key": "13b99fb3f346435d863bc48b933d8ab6",
-		"Content-Type": "application/json",
-		"Host": "westus.api.cognitive.microsoft.com"
-	},
-	body: JSON.parse(azureBody),
-	json: true
-};
-
-var azureSentimentOptions = JSON.parse(JSON.stringify(azureOptions));
-var azureKeyPhrasesOptions = JSON.parse(JSON.stringify(azureOptions));
-
-azureSentimentOptions.url += "sentiment";
-azureKeyPhrasesOptions.url += "keyPhrases";
-
-// console.log(azureSentimentOptions.url);
-// console.log(azureKeyPhrasesOptions.url);
-
-// Main post request for processing data 
-
 app.post('/process', function(req, res){
 
-	var text = req.body.text;
-
+	var inputText = req.body.text;
 	
+	// Header information
+
+	var azureEndpoints = ["sentiment", "keyPhrases"]
+	// possible endpoints: "sentiment", "keyPhrases", "languages"
+
+	var azureBody = JSON.stringify({
+	  "documents": [
+	    {
+	      "id": "string",
+	      "text": inputText
+	    }
+	  ]
+	})
+
+	const azureOptions = {
+		url: "https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/",
+		method: "POST",
+		headers:{
+			"Ocp-Apim-Subscription-Key": "13b99fb3f346435d863bc48b933d8ab6",
+			"Content-Type": "application/json",
+			"Host": "westus.api.cognitive.microsoft.com"
+		},
+		body: JSON.parse(azureBody),
+		json: true
+	};
+
+	var azureSentimentOptions = JSON.parse(JSON.stringify(azureOptions));
+	var azureKeyPhrasesOptions = JSON.parse(JSON.stringify(azureOptions));
+
+	azureSentimentOptions.url += "sentiment";
+	azureKeyPhrasesOptions.url += "keyPhrases";
+
+	// console.log(azureSentimentOptions.url);
+	// console.log(azureKeyPhrasesOptions.url);
+
+	// Main post request for processing data =
 
 	var azureResponse = {
 		sentiment: "",
