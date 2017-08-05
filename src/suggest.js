@@ -7,6 +7,12 @@ const sources = [
 	'http://www.abc.net.au/news/feed/52278/rss.xml'
 ]
 
+const options = {
+	customFields: {
+		item: ['content']
+	}
+}
+
 module.exports = function (keywords, callback) {
 	articles = []
 
@@ -14,7 +20,8 @@ module.exports = function (keywords, callback) {
 		parsed.feed.entries.forEach(function(entry) {
 			articles.push({
 				'title': entry.title,
-				'url': entry.link
+				'url': entry.link,
+				'content': entry.content
 			})
 		})
 
