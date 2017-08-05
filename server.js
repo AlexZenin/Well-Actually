@@ -43,11 +43,10 @@ app.use(bodyParser.json());
 
 // Header information
 
+var azureEndpoint = "sentiment"
 var azureEndpoints = ["sentiment", "keyPhrases"]
 
 // possible endpoints: "sentiment", "keyPhrases", "languages"
-
-// Body of the request
 
 var azureBody = JSON.stringify({
   "documents": [
@@ -58,7 +57,7 @@ var azureBody = JSON.stringify({
   ]
 })
 
-var azureOptions = {
+const azureOptions = {
 	url: "https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/",
 	method: "POST",
 	headers:{
@@ -70,53 +69,55 @@ var azureOptions = {
 	json: true
 };
 
+var azureSentimentOptions = JSON.parse(JSON.stringify(azureOptions));
+var azureKeyPhrasesOptions = JSON.parse(JSON.stringify(azureOptions));
+
+azureSentimentOptions.url += "sentiment";
+azureKeyPhrasesOptions.url += "keyPhrases";
+
+// console.log(azureSentimentOptions.url);
+// console.log(azureKeyPhrasesOptions.url);
+
 // Main post request for processing data 
 
 app.post('/process', function(req, res){
 
 	var text = req.body.text;
 
-	console.log("The body of the request is: " + text);
+	
 
 	var azureResponse = {
-		sentiment: 0,
+		sentiment: "",
 		keyPhrases: []
 	}
 
-	// Sentiment request
+	// Start the sentiment request
 
-	var azureSentimentRequest = azureOptions
-	azureSentimentRequest.url += azureEndpoints[0]
-
-	request(azureSentimentRequest, function (error, response, body) {
-	    if (!error && response.statusCode == 200) {
-	        // Print out the response body
-	        azureResponse.sentiment = body.documents[0].score;
-	        console.log("Body of the sentiment request: " + body)
+	request(azureSentimentOptions, function (error, response, body) {
+	    if (!error && response.statusCode == 200) {	       
+	        // console.log("The id is: " + String(response.body.documents[0].score));
+	        azureResponse.sentiment = response.body.documents[0].score;
+	        // console.log(azureResponse.sentiment);
 	    } else {
 			console.log(error);
 	    }
+		
+
+	    // Start keyPhrases the request
+
+		request(azureKeyPhrasesOptions, function (error, response, body) {
+		    if (!error && response.statusCode == 200) {		       
+		        // console.log("The key values are: " + String(response.body.documents[0].keyPhrases));
+		        azureResponse.keyPhrases = response.body.documents[0].keyPhrases;
+		        // console.log(azureResponse.keyPhrases);
+		    } else {
+				console.log(error);
+		    }
+		
+			res.end(JSON.stringify(azureResponse));
+		
+		})
 	})
-
-
-	// Keywords request
-
-	var azureKeyPhrasesRequest = azureOptions
-	azureKeyPhrasesRequest.url += azureEndpoints[1]
-
-	request(azureKeyPhrasesRequest, function (error, response, body) {
-	    if (!error && response.statusCode == 200) {
-	        // Print out the response body
-	        azureResponse.keyPhrases = body.documents[0].keyPhrases
-	        console.log("Body of the body request: " + body)
-	    } else {
-			console.log(error);
-	    }
-	})
-
-	// Return the sentiment and the key words
-
-	res.end(JSON.stringify(azureResponse))
 })
 
 
