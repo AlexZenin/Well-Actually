@@ -43,9 +43,11 @@ app.use(bodyParser.json());
 
 // Header information
 
-var azureEndpoint = "languages"
+var azureEndpoints = ["sentiment", "keyPhrases"]
 
 // possible endpoints: "sentiment", "keyPhrases", "languages"
+
+// Body of the request
 
 var azureBody = JSON.stringify({
   "documents": [
@@ -57,7 +59,7 @@ var azureBody = JSON.stringify({
 })
 
 var azureOptions = {
-	url: "https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/" + azureEndpoint,
+	url: "https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/",
 	method: "POST",
 	headers:{
 		"Ocp-Apim-Subscription-Key": "13b99fb3f346435d863bc48b933d8ab6",
@@ -74,20 +76,47 @@ app.post('/process', function(req, res){
 
 	var text = req.body.text;
 
-	console.log(text);
+	console.log("The body of the request is: " + text);
 
-	// Start the request
-	request(azureOptions, function (error, response, body) {
+	var azureResponse = {
+		sentiment: 0,
+		keyPhrases: []
+	}
+
+	// Sentiment request
+
+	var azureSentimentRequest = azureOptions
+	azureSentimentRequest.url += azureEndpoints[0]
+
+	request(azureSentimentRequest, function (error, response, body) {
 	    if (!error && response.statusCode == 200) {
 	        // Print out the response body
-	        console.log(body)
+	        azureResponse.sentiment = body.documents[0].score;
+	        console.log("Body of the sentiment request: " + body)
 	    } else {
 			console.log(error);
 	    }
 	})
 
 
-	res.end("Well done, you hit the enpoint!")
+	// Keywords request
+
+	var azureKeyPhrasesRequest = azureOptions
+	azureKeyPhrasesRequest.url += azureEndpoints[1]
+
+	request(azureKeyPhrasesRequest, function (error, response, body) {
+	    if (!error && response.statusCode == 200) {
+	        // Print out the response body
+	        azureResponse.keyPhrases = body.documents[0].keyPhrases
+	        console.log("Body of the body request: " + body)
+	    } else {
+			console.log(error);
+	    }
+	})
+
+	// Return the sentiment and the key words
+
+	res.end(JSON.stringify(azureResponse))
 })
 
 
