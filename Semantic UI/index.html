@@ -4,15 +4,40 @@
 		<title>
 			Semantic UI
 		</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
 		<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
-		<script
+		<script>
 		  src="https://code.jquery.com/jquery-3.1.1.min.js"
 		  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
 		  crossorigin="anonymous"></script>
 		<script src="semantic/dist/semantic.min.js"></script>
 	</head>
 	<body>
-		<h1>Hello world</h><br>
-		<button class="ui primary button">BUTTON</button>
+		<div class="ui middle aligned center aligned grid">
+			<div class="column">
+				<h1 class="ui header">
+					<div class="content">
+						Well Actually...
+					</div>
+				</h1>
+				<div class="field">
+					<div class="ui input">
+						<input type="text" name="text" placeholder="text" id="user_input">
+					</div>
+				</div>
+				<input type="submit" class="ui primary button" onclick="showInput();">
+			</div>
+		</div>
+		<div class="ui container">
+			<div class="ui segments">
+				<div class="ui segment" id="display">Source 1</div>
+			</div>
+		</div>
+		<script>
+			function showInput() {
+		        document.getElementById('display').innerHTML = 
+		                    document.getElementById("user_input").value;
+		    }
+		</script>
 	</body>
 </html>
