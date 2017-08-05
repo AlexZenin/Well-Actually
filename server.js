@@ -3,6 +3,19 @@ const app = express()
 
 app.set('port', (process.env.PORT) || 8080 )
 
+// Dummy Data
+
+const source = [
+	{
+		"title": "Top 10 Anime Betrayals",
+		"url": "http://apple.com"
+	},
+	{
+		"title": "Another one",
+		"url": "http://nyan.cat"
+	}
+]
+
 // Routes
 
 app.get('/', function(req, res) {
@@ -11,7 +24,7 @@ app.get('/', function(req, res) {
 })
 
 app.get('/test', function(req, res) {
-	res.end('hello world')
+	res.end(JSON.stringify(source))
 })
 
 // Start the app

@@ -11,6 +11,7 @@
 		  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
 		  crossorigin="anonymous"></script>
 		<script src="semantic/dist/semantic.min.js"></script>
+		<script src="script.js"></script>
 	</head>
 	<body>
 		<div class="ui middle aligned center aligned grid">
@@ -29,28 +30,9 @@
 			</div>
 		</div>
 		<div class="ui container">
-			<div class="ui segments">
+			<div class="ui segments" id="results">
 				<div class="ui segment" id="display">Source 1</div>
 			</div>
 		</div>
-		<script>
-			function showInput() {
-		        document.getElementById('display').innerHTML = 
-		                    document.getElementById("user_input").value;
-		    }
-
-		    // Gets the text from the provided url
-		    function getResultFrom(url) {
-		    	var xmlHttp = new XMLHttpRequest();
-		    	xmlHttp.open("GET", url, false);
-		    	xmlHttp.send(null);
-		    	return xmlHttp.responseText;
-		    }
-
-		    // Shows result on the display
-		    function showInDisplay(value) {
-		    	document.getElementById('display').innerHTML = getResultFrom('/test');
-		    }
-		</script>
 	</body>
 </html>
