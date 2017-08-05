@@ -13,7 +13,7 @@ $(function() {
 
 			$('#results').show()
 
-			// Loop over results
+			// Loop over results and display them
 			for (index in results) {
 				$('#results').append('<div class="ui segment"><a href="' + results[index].url + '">' + results[index].title + '</a></div>')
 			}
