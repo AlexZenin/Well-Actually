@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const imagifier = require('./imagifier')
 const suggest = require('./suggest')
 const express = require('express')
+const magix = require('./magix')
 const path = require('path')
 const app = express()
 
@@ -24,18 +25,23 @@ app.post('/post', function(req, res) {
 	articleParser(url, function(err, content) {
 		const text = content
 
-		// Get the keywords after passing the text to Azure's magicz
-		const keywords = text.split(' ', 4)
+		// Send it to the Azure api
+		magix('hello world', function(err, azureResponse){
+		
+			// Get the keywords after passing the text to Azure's magicz
+			const keywords = (JSON.parse(azureResponse)).keyPhrases
 
-		// Get a list of relevant articles given keywords then send it back to the client
-		suggest(keywords, function(err, articles) {
+			// Get a list of relevant articles given keywords then send it back to the client
+			suggest(keywords, function(err, articles) {
 
-			// Modify articles to have images
-			imagifier(articles, function(err, suggestions) {
-				
-				// Finally, send it
-				res.end(JSON.stringify(suggestions))
-			})
+				// Modify articles to have images
+				imagifier(articles, function(err, suggestions) {
+					
+					// Finally, send it
+					res.end(JSON.stringify(suggestions))
+				})
+
+			})	
 
 		})
 
