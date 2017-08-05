@@ -1,5 +1,6 @@
 const articleParser = require('./parser')
 const bodyParser = require('body-parser')
+const imagifier = require('./imagifier')
 const suggest = require('./suggest')
 const express = require('express')
 const path = require('path')
@@ -28,7 +29,14 @@ app.post('/post', function(req, res) {
 
 		// Get a list of relevant articles given keywords then send it back to the client
 		suggest(keywords, function(err, articles) {
-			res.end(JSON.stringify(articles))
+
+			// Modify articles to have images
+			imagifier(articles, function(err, suggestions) {
+				
+				// Finally, send it
+				res.end(JSON.stringify(suggestions))
+			})
+
 		})
 
 	})

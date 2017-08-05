@@ -1,4 +1,5 @@
 const rssParser = require('rss-parser')
+const bestImage = require('best-image')
 
 const sources = [
 	'http://feeds.nature.com/NatureNewsComment',
@@ -21,7 +22,8 @@ module.exports = function (keywords, callback) {
 			articles.push({
 				'title': entry.title,
 				'url': entry.link,
-				'content': entry.content
+				'content': entry.content,
+				'imageURL': ''
 			})
 		})
 
