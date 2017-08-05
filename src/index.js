@@ -23,10 +23,8 @@ app.post('/post', function(req, res) {
 	articleParser(url, function(err, content) {
 		const text = content
 
-		console.log(text)
-
 		// Get the keywords after passing the text to Azure's magicz
-		const keywords = ['drug', 'animal']
+		const keywords = text.split(' ', 4)
 
 		// Get a list of relevant articles given keywords then send it back to the client
 		suggest(keywords, function(err, articles) {
