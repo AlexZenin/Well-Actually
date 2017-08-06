@@ -18,8 +18,8 @@ html{
 }
 
 .background{
-  min-width:100%;
-  min-height: 100%;
+  width:100vw;
+  height: auto;
   position: fixed;
 }
 .background g g{
@@ -38,7 +38,7 @@ html{
 
 .title{
   font-family: light;
-  font-size: 0.5em;
+  font-size: 3vh;
   position: relative;
   opacity: 0;
   top: -1em;
@@ -54,9 +54,8 @@ html{
   0% { opacity:0; }
   100% { opacity:1; }
 }
-.dots{
-  position: relative;
-  top: -1em;
+.slogan{
+  font-family: hairline;
 }
 .bold{
    font-family: regular;
@@ -100,7 +99,7 @@ html{
   }
 }
 .path3{
-  stroke-width:0;
+  opacity: 0;
   animation-duration: 0.7s;
   animation-delay: 0.6s;
     animation-iteration-count: 1;
@@ -112,14 +111,15 @@ html{
 @keyframes dot {
     0% {
         transform: scale(0);
+        opacity: 1;
     }
     50% {
         transform: scale(3);
+        opacity: 1;
     }
     100%{
       transform: scale(1);
-      stroke-width:8;
-      fill: #000;
+      opacity: 1;
     }
 }
 
@@ -207,6 +207,7 @@ outline: none;
   animation: 0.3s draw linear forwards;
   fill: rgba(255,255,255,0.5);
 }
+
 .search{
   width: 2.3em;
   height: 2.3em;
@@ -228,4 +229,11 @@ outline: none;
 .sources{
   text-align: center;
   padding: 1em;
+}
+
+@media (orientation: portrait) {
+  .background{
+    height: 110vh;
+    width: auto;
+  }
 }
