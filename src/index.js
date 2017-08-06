@@ -37,8 +37,10 @@ app.post('/post', function(req, res) {
 			// Get the keywords after passing the text to Azure's magicz
 			const keywords = (JSON.parse(azureResponse)).keyPhrases
 
+			console.log('KEYWORDS', keywords)
+
 			// Get a list of relevant articles given keywords then send it back to the client
-			suggest(keywords, function(err, articles) {
+			suggest(['the'], function(err, articles) {
 
 				console.log('SUGGESTIONS SUCCESSFULLY SUGGESTED')
 
