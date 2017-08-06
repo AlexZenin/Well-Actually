@@ -2,7 +2,9 @@ const rssParser = require('rss-parser')
 const bestImage = require('best-image')
 
 const sources = [
-	'http://feeds.nature.com/NatureNewsComment'
+	'http://feeds.nature.com/NatureNewsComment',
+	'http://www.snopes.com/feed/',
+	'http://www.abc.net.au/news/feed/52278/rss.xml'
 ]
 
 const options = {
