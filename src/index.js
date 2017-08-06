@@ -35,7 +35,8 @@ app.post('/post', function(req, res) {
 			console.log('TEXT SUCCESSFULLY MAGIXED')
 		
 			// Get the keywords after passing the text to Azure's magicz
-			const keywords = (JSON.parse(azureResponse)).keyPhrases
+			// const keywords = (JSON.parse(azureResponse)).keyPhrases
+			const keywords = content.split(' ', 5)
 
 			console.log('KEYWORDS', keywords)
 
