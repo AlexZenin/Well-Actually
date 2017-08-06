@@ -3,8 +3,6 @@ const bestImage = require('best-image')
 
 const sources = [
 	'http://feeds.nature.com/NatureNewsComment',
-	'http://www.snopes.com/feed/',
-	'http://www.abc.net.au/news/feed/52278/rss.xml'
 ]
 
 const options = {
@@ -32,12 +30,14 @@ module.exports = function (keywords, callback) {
 
 			relevant = articles.filter(function(article) {
 				for (index in keywords) {
-					if (article.title.toLowerCase().indexOf(keywords[index]) > -1) {
+					if (article.content.toLowerCase().indexOf(keywords[index]) > -1) {
 						return true
 					}
 				}
 				return false
 			})
+
+			console.log(relevant)
 
 			total += 1
 
