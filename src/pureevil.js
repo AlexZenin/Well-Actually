@@ -13,7 +13,7 @@ module.exports = function(articles, callback) {
 
 				final.push({
 					'title': article.title,
-					'url': article.url,
+					'link': article.url,
 					'content': article.content,
 					'imageURL': imgURL,
 					'sentiment': (JSON.parse(azureResponse)).sentiment,
