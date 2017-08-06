@@ -1,7 +1,6 @@
 $(function() {
 
 	$('#results').hide()
-	$('#cards').hide()
 
 	$('#user_input').on('keyup', function(event) {
 		if (event.keyCode == 13) {

@@ -51,7 +51,7 @@ app.post('/post', function(req, res) {
 					console.log('IMAGES SUCCESSFULLY ADDED')
 					
 					// Finally, send it
-					res.end(JSON.stringify(suggestions.slice(0,5)))
+					res.end(JSON.stringify(suggestions.slice(0,6)))
 				})
 
 			})	
